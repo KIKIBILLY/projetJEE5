@@ -29,6 +29,7 @@ public class EmployeeDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		String query = "Select * from utilisateur JOIN employe on utilisateur.identifiant= employe.identifiant_utilisateur WHERE (utilisateur.identifiant="+ id+")";
 		try {
 			
@@ -38,7 +39,7 @@ public class EmployeeDao {
 			while (rs.next()) {
 				credential = new Credentials();
 				
-				String identifiant = String.valueOf(rs.getInt(1));
+				String identifiant = String.valueOf(rs.getInt(9));
 				String email = rs.getString(2);
 				String password = rs.getString(3);
 				String nom = rs.getString(4);
@@ -86,14 +87,14 @@ public class EmployeeDao {
 			while (rs.next()) {
 				credential = new Credentials();
 				
-				String identifiant = String.valueOf(rs.getInt(1));
+				String identifiant = String.valueOf(rs.getInt(9));
 				String password = rs.getString(3);
 				String nom = rs.getString(4);
 				String prenom = rs.getString(5);
 				String numtel = rs.getString(6);
 				String adresse = rs.getString(7);
-				PointLocation pl = pls.getPLById(String.valueOf(rs.getInt(9)));
-				
+				PointLocation pl = pls.getPLById(String.valueOf(rs.getInt(10)));
+				System.out.println();
 				emp.setIdentifiant(identifiant);
 				credential.setEmail(email);
 				credential.setPassword(password);
@@ -133,7 +134,7 @@ public class EmployeeDao {
 			while (rs.next()) {
 				emp = new Employe();
 				credential = new Credentials();
-				String identifiant = String.valueOf(rs.getInt(1));
+				String identifiant = String.valueOf(rs.getInt(9));
 				String email = rs.getString(2);
 				String password = rs.getString(3);
 				String nom = rs.getString(4);

@@ -20,6 +20,8 @@ public class TestMain {
 		Configuration conf = new Configuration();
 		List<Employe> emps = new ArrayList<Employe>();
 		PointLocationDao pls = new PointLocationDao();
+		String idClient= "3";
+		String idEmploye = "11";
 		
 		try {
 			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
@@ -27,41 +29,26 @@ public class TestMain {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String query = "Select * from utilisateur JOIN employe on utilisateur.identifiant= employe.identifiant_utilisateur";
+		String query = "select * "
+				+ "from (reservation "
+				+ "NATURAL JOIN objet "
+				+ "JOIN employe on objet.id_stock= employe.identifiant_pl) "
+				+ "WHERE (reservation.id_client = "+idClient+") AND (employe.identifiant="+idEmploye+")";
 		try {
 			ResultSet rs = db.executeQuery(query);
 			Employe emp = null;
 			Credentials credential = null;
+			
+
 			while (rs.next()) {
-				emp = new Employe();
-				credential = new Credentials();
-				String identifiant = String.valueOf(rs.getInt(1));
-				String email = rs.getString(2);
-				String password = rs.getString(3);
-				String nom = rs.getString(4);
-				String prenom = rs.getString(5);
-				String numtel = rs.getString(6);
-				String adresse = rs.getString(7);
-				PointLocation pl = pls.getPLById(String.valueOf(rs.getInt(10)));
-				
-				emp.setIdentifiant(identifiant);
-				credential.setEmail(email);
-				credential.setPassword(password);
-				emp.setCredential(credential);				
-				emp.setNom(nom);
-				emp.setPrenom(prenom);
-				emp.setNumeroTel(numtel);
-				emp.setAdresseHabitation(adresse);
-				emp.setPl(pl);
-				
-				
-				emps.add(emp);
+							System.out.println(rs.getString(1));
+
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//ReservationDao resDao = new ReservationDao();
+		/*//ReservationDao resDao = new ReservationDao();
 		//System.out.println(resDao.getReservationByClientId("3").get(0).getObjet().getImages().get(0));
 		//System.out.println(GenerateurID.generate(12));
 		/*MysqlDB db = new MysqlDB();
@@ -86,11 +73,8 @@ public class TestMain {
 			}
 			System.out.println(produit[2]);
 
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+*/
+		
 
 	}
 

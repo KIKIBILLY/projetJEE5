@@ -35,10 +35,13 @@ public class PointLocationDao {
 		System.out.println(query);
 		try {
 			ResultSet rs = db.executeQuery(query);
-			rs.next();
-			pl.setIdPL(String.valueOf(rs.getInt(1)));
-			pl.setLibelle(rs.getString(2));
-			pl.setAdresse(rs.getString(3));
+			while(rs.next()) {
+				pl.setIdPL(String.valueOf(rs.getInt(1)));
+				pl.setLibelle(rs.getString(2));
+				pl.setAdresse(rs.getString(3));
+			}
+			
+			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

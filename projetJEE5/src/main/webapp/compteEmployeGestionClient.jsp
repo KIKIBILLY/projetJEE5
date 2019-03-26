@@ -51,71 +51,83 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
-  <header class="main-header">
-    <!-- Logo -->
-    <a  class="logo">
-      
-      <span class="logo-lg"><b>Easy Rent</b></span>
-    </a>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
+<header class="main-header">
+			<!-- Logo -->
+			<a class="logo"> <span class="logo-lg"><b>Easy Rent</b></span>
+			</a>
+			<!-- Header Navbar: style can be found in header.less -->
+			<nav class="navbar navbar-static-top">
+				<!-- Sidebar toggle button-->
+				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+					role="button"> <span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+				</a>
 
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="./dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Arezki BOURIHANE</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="./dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
 
-                <p>
-                  Arezki -Employé- 
-              </li>
-              <!-- Menu Body -->
-              
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profil</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Se deconnecter</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          
-        </ul>
-      </div>
-    </nav>
-  </header>
+						<!-- variable de session -->
+						<li class="dropdown user user-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <c:if
+									test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+									<img src="${ sessionScope.photo }" class="user-image"
+										alt="User Image">
+									<span class="hidden-xs">${ sessionScope.nom } ${ sessionScope.prenom }
+									</span>
+								</c:if>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- User image -->
+								<li class="user-header"><c:if
+										test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+
+										<img src="${ sessionScope.photo }" class="img-circle"
+											alt="User Image">
+										<p>${ sessionScope.nom } ${ sessionScope.prenom }
+										<p>
+									</c:if></li>
+								<!-- Menu Body -->
+
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="#" class="btn btn-default btn-flat">Profil</a>
+									</div>
+									<div class="pull-right">
+										<a href="#" class="btn btn-default btn-flat">Se
+											deconnecter</a>
+									</div>
+								</li>
+							</ul></li>
+						<!-- Control Sidebar Toggle Button -->
+
+					</ul>
+				</div>
+			</nav>
+		</header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="./dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left info">
-          <p>Alexander Pierce</p>
-        </div>
-      </div>
+      <<div class="user-panel">
+					<c:if
+						test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+						<div class="pull-left image">
+							<img src="${ sessionScope.photo }" class="img-circle"
+								alt="User Image">
+						</div>
+						<div class="pull-left info">
+
+
+							<p>${ sessionScope.nom }  ${ sessionScope.prenom }</p>
+							
+
+						</div>
+					</c:if>
+
+				</div>
       
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
@@ -162,7 +174,7 @@
                 
                 
                 
-                  <b>Nombre de Réservations</b> <a class="pull-right">22</a>
+                  <b>Nombre de RÃ©servations</b> <a class="pull-right">22</a>
                 </li>
                 <li class="list-group-item">
                   <b>Nombre de Locations</b> <a class="pull-right">3</a>
@@ -207,7 +219,7 @@
         <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#reservation" data-toggle="tab">Réservation</a></li>
+              <li class="active"><a href="#reservation" data-toggle="tab">RÃ©servation</a></li>
               <li><a href="#location" data-toggle="tab">Location</a></li>
             </ul>
             <div class="tab-content">
@@ -215,42 +227,52 @@
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Liste des objets réservés </h3>
+              <h3 class="box-title">Liste des objets reserves </h3>
             </div>
             <div class="box-body">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Référence de l'objet</th>
-                  <th>Designation</th>
+                  <th>Id Reservation</th>
+                  <th>Categorie</th>
+                  <th>Libelle </th>
+                  <th>Prix location/J</th>
                   <th>Date de reservation</th>
-                  <th>Quantité</th>
-                  <th>Prix/jr</th>
+                  <th>Date limite de reservation</th>
                   <th>Action</th>
                 </tr>
+                
                 </thead>
                 <tbody>
-                
-                <tr>
-                  
-                  <td><input type="checkbox"> Misc</td>
-                  <td>Links</td>
-                  <td>Text only</td>
-                  <td>-</td>
-                  <td>-</td>
-                 <td> <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#lightbox" ><i class="fa fa-eye"></i></button>
+                <c:forEach items="${ reservations }" var="reservation">
+                <tr> 
+                  <td> <input type="checkbox"><c:out value="${ reservation.idReservation}" /></td>
+                  <td><c:out value="${ reservation.objet.categorie}" /></td>
+                  <td><c:out value="${ reservation.objet.fp.libelle}" /></td>
+                  <td><c:out value="${ reservation.objet.fp.pxlj}" /></td>
+                  <td><c:out value="${ reservation.dateReservation}" /></td>
+                  <td><c:out value="${ reservation.dateLimitReservation}" />
+                   <td>
                   <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-share"></i></button>
+                   <button type="button" data-id="${reservation.idReservation}" data-libelle="${reservation.objet.fp.libelle}" class="del add-to-cart-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash"></i></button>
+                  
                   </td>
                 </tr>
+               	</c:forEach>
                
                 </tbody>
                 
               </table>
+              
+              	
+
+
+              
 
             </div>
 
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">Préparation du contrat</button>
+                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">PrÃ©paration du contrat</button>
             </div>
             <!-- /.box-body -->
           </div>
@@ -268,16 +290,16 @@
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Liste des objets loués </h3>
+              <h3 class="box-title">Liste des objets louÃ©s </h3>
             </div>
             <div class="box-body">
               <table id="example2" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Référence de l'objet</th>
+                  <th>RÃ©fÃ©rence de l'objet</th>
                   <th>Designation</th>
                   <th>Date de location</th>
-                  <th>Quantité</th>
+                  <th>QuantitÃ©</th>
                   <th>Prix/jr</th>
                   <th>Action</th>
                 </tr>
@@ -341,7 +363,7 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Préparer un nouveau contrat</h4>
+                <h4 class="modal-title">PrÃ©parer un nouveau contrat</h4>
               </div>
            
 
@@ -369,24 +391,24 @@
 
                   <div class="col-lg-6">
               
-                  <label>Identifiant réservation</label>
+                  <label>Identifiant rÃ©servation</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
-                  <label>libellé</label>
+                  <label>libellÃ©</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
 
-                  <label>Prix de location a  la journée</label>
+                  <label>Prix de location aÂ  la journÃ©e</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
                  
-                  <label>Cautions payées</label>
+                  <label>Cautions payÃ©es</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
 
                   </div>
                   <div class="col-lg-6">
-                  <label>Amendes de dépassement/jour</label>
+                  <label>Amendes de dÃ©passement/jour</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
                  
 
@@ -449,24 +471,24 @@
 
                   <div class="col-lg-6">
               
-                  <label>Identifiant réservation</label>
+                  <label>Identifiant rÃ©servation</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
-                  <label>libellé</label>
+                  <label>libellÃ©</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
 
-                  <label>Prix de location a  la journée</label>
+                  <label>Prix de location aÂ  la journÃ©e</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
                  
-                  <label>Cautions payées</label>
+                  <label>Cautions payÃ©es</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
 
                   </div>
                   <div class="col-lg-6">
-                  <label>Amendes de dépassement/jour</label>
+                  <label>Amendes de dÃ©passement/jour</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
                  
 
@@ -568,24 +590,24 @@
 
                   <div class="col-lg-6">
               
-                  <label>Identifiant réservation</label>
+                  <label>Identifiant rÃ©servation</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
-                  <label>libellé</label>
+                  <label>libellÃ©</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
 
-                  <label>Prix de location a  la journée</label>
+                  <label>Prix de location aÂ  la journÃ©e</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
                  
-                  <label>Cautions payées</label>
+                  <label>Cautions payÃ©es</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
 
                   </div>
                   <div class="col-lg-6">
-                  <label>Amendes de dépassement/jour</label>
+                  <label>Amendes de dÃ©passement/jour</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
                  
 
@@ -648,24 +670,24 @@
 
                   <div class="col-lg-6">
               
-                  <label>Identifiant réservation</label>
+                  <label>Identifiant rÃ©servation</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
-                  <label>libellé</label>
+                  <label>libellÃ©</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
 
-                  <label>Prix de location a  la journée</label>
+                  <label>Prix de location aÂ  la journÃ©e</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
                  
-                  <label>Cautions payées</label>
+                  <label>Cautions payÃ©es</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
 
 
                   </div>
                   <div class="col-lg-6">
-                  <label>Amendes de dépassement/jour</label>
+                  <label>Amendes de dÃ©passement/jour</label>
                   <input type="text" class="form-control" placeholder="1" disabled>
                  
 
@@ -790,6 +812,47 @@
     </div>
   </div>
 
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle">Confirmation de suppression</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 > La suppression de la reservation est irrÃ©versible</h5>
+        <h5 > Etes vous sure de bien vouloir supprimer la reservation de l'objet :</h5>
+        <p id="IdObj"><p> <p id="LbObj"><p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="confirmation btn btn-danger">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+$(document).on("click", ".del", function () {
+     $("#IdObj").text($(this).data('idReservation'));
+     $("#LbObj").text($(this).data('objet.fp.libelle'));
+});
+
+$(document).on("click", ".confirmation", function () {
+	var idPl = $("#idPlP").text();
+	alert("compteAdminListePl?action=Supprimer&idPl="+idPl);
+    document.location="compteAdminListePl?action=Supprimer&idPl="+idPl;
+});
+
+
+</script>
+
+
+
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -816,12 +879,12 @@
       <input type="email" class="form-control" id="inputEmail4" placeholder="" disabled="true">
     </div>
     <div class="form-group col-md-6">
-      <label for="inputEmail4">Désignation</label>
-      <input type="email" class="form-control" id="inputEmail4" placeholder="Libellé court" >
+      <label for="inputEmail4">DÃ©signation</label>
+      <input type="email" class="form-control" id="inputEmail4" placeholder="LibellÃ© court" >
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">Amende</label>
-      <input type="password" class="form-control" id="inputPassword4" placeholder="Amende de dépassement">
+      <input type="password" class="form-control" id="inputPassword4" placeholder="Amende de dÃ©passement">
     </div>
   </div>
   <div class="">
@@ -837,7 +900,7 @@
   <br>
   <div class="form-group" >
     
-    <textarea class="form-control" rows="3" placeholder="Description et défauts"></textarea>
+    <textarea class="form-control" rows="3" placeholder="Description et dÃ©fauts"></textarea>
   </div>
   
   <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
@@ -880,5 +943,8 @@
     })
   })
 </script>
+
+
+
 </body>
 </html>

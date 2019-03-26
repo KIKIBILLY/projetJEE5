@@ -7,7 +7,10 @@ import fr.dauphine.miageif.bean.Credentials;
 import fr.dauphine.miageif.bean.Utilisateur;
 import fr.dauphine.miageif.config.Configuration;
 import fr.dauphine.miageif.db.MysqlDB;
-
+/**
+ * @author BOURIHANE
+ *
+ */
 public class UtilisateurDao {
 	MysqlDB db = new MysqlDB();
 	Configuration conf = new Configuration();
@@ -23,15 +26,14 @@ public class UtilisateurDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		String query = "Select * from utilisateur WHERE (utilisateur.email= "+ email+")";
 		try {
 			
 			ResultSet rs = db.executeQuery(query);
-			
 			Credentials credential = null;
 			while (rs.next()) {
-				credential = new Credentials();
-				
+				credential = new Credentials();				
 				String identifiant = rs.getString(1);
 				String emaiL = rs.getString(2);
 				String password = rs.getString(3);
@@ -51,6 +53,7 @@ public class UtilisateurDao {
 				utilisateur.setNumeroTel(numtel);
 				utilisateur.setAdresseHabitation(adresse);
 				utilisateur.setUrlPhoto(urlphoto);
+				
 			
 			}
 		} catch (SQLException e) {

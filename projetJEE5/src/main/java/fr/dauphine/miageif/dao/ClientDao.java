@@ -1,5 +1,8 @@
 package fr.dauphine.miageif.dao;
-
+/**
+ * @author BOURIHANE
+ *
+ */
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +28,7 @@ public class ClientDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		String query = "Select * from utilisateur JOIN client on utilisateur.identifiant= client.identifiant_utilisateur WHERE (utilisateur.identifiant= "+ id+")";
 		try {
 			

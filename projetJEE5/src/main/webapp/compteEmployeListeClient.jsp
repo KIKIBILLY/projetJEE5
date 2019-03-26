@@ -57,7 +57,6 @@
 									test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
 									<img src="${ sessionScope.photo }" class="user-image"
 										alt="User Image">
-
 									<span class="hidden-xs">${ sessionScope.nom } ${ sessionScope.prenom }
 									</span>
 								</c:if>
@@ -69,7 +68,6 @@
 
 										<img src="${ sessionScope.photo }" class="img-circle"
 											alt="User Image">
-
 										<p>${ sessionScope.nom } ${ sessionScope.prenom }
 										<p>
 									</c:if></li>
@@ -107,9 +105,8 @@
 						<div class="pull-left info">
 
 
-							<p>${ sessionScope.nom }${ sessionScope.prenom }</p>
-							<a href="#"><i class="fa fa-circle text-success"></i> En
-								ligne</a>
+							<p>${ sessionScope.nom }  ${ sessionScope.prenom }</p>
+							
 
 						</div>
 					</c:if>

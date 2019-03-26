@@ -11,7 +11,10 @@ import fr.dauphine.miageif.bean.Utilisateur;
 import fr.dauphine.miageif.config.Configuration;
 import fr.dauphine.miageif.db.MysqlDB;
 
-
+/**
+ * @author BOURIHANE
+ *
+ */
 public class LoginDao {
 	MysqlDB db = new MysqlDB();
 	Configuration conf = new Configuration();

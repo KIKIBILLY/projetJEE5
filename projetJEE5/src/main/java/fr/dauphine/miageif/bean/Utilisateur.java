@@ -1,5 +1,9 @@
 package fr.dauphine.miageif.bean;
 
+/**
+ * @author BOURIHANE
+ *
+ */
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

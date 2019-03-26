@@ -301,7 +301,7 @@ $(document).on("click", ".confirmation", function () {
 			$('#example2').DataTable()
 			$('#example3').DataTable()
 
-		})c
+		})
 	</script>
 	
 	

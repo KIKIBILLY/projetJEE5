@@ -84,6 +84,48 @@ public class ReservationDao {
 		db.close();
 		return reservations;
 	}
+	
+	
+	public List<Reservation> getReservationByClientIdANDPointLocation(String idClient, String idEmploye) throws IOException {
+
+		MysqlDB db = new MysqlDB();
+		Configuration conf = new Configuration();
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Reservation reservation = new Reservation();
+		String  query = "select * "
+				+ "from (reservation  "
+				+ "NATURAL JOIN objet  "
+				+ "JOIN employe on objet.id_stock= employe.identifiant_pl)  "
+				+ "WHERE (reservation.id_client = "+idClient+") AND (employe.identifiant="+idEmploye+")";
+		ObjetDao objetDao = new ObjetDao();
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		ResultSet rs;
+		try {
+			rs = db.executeQuery(query);
+			
+			while (rs.next()) {
+				
+				reservation = new Reservation();
+				reservation.setObjet(objetDao.getObjetById(rs.getString(1)));
+				reservation.setIdReservation(rs.getString(2));
+				reservation.setIdClient(idClient);
+				reservation.setDateReservation(rs.getString(4));
+				reservation.setDateLimitReservation(rs.getString(5));
+				reservation.setNbrJourReservation(rs.getInt(6));
+				reservations.add(reservation);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+		return reservations;
+	}
 
 	public boolean deleteReservation(String id) {
 		MysqlDB db = new MysqlDB();
