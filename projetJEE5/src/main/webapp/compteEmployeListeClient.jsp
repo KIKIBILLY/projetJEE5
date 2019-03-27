@@ -68,7 +68,7 @@
 
 										<img src="${ sessionScope.photo }" class="img-circle"
 											alt="User Image">
-										<p>${ sessionScope.nom } ${ sessionScope.prenom }
+										<p>${ sessionScope.nom }${ sessionScope.prenom }
 										<p>
 									</c:if></li>
 								<!-- Menu Body -->
@@ -105,8 +105,8 @@
 						<div class="pull-left info">
 
 
-							<p>${ sessionScope.nom }  ${ sessionScope.prenom }</p>
-							
+							<p>${ sessionScope.nom }${ sessionScope.prenom }</p>
+
 
 						</div>
 					</c:if>
@@ -187,7 +187,7 @@
 												<td><c:out value="${ client.credential.email }" /></td>
 												<td>pas encore</td>
 												<td><a
-													href="ClientControleur?reservation=${client.identifiant}">
+													href="ClientControleur?identifiant=${client.identifiant}">
 														<button class="btn btn-block btn-success btn-xs">
 															Reservations en cours</button>
 												</a></td>

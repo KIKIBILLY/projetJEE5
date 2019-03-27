@@ -19,7 +19,6 @@ public class ClientDao {
 
 	
 	
-	
 	public Client getClient (String id) throws IOException  {
 		Client client = new Client();
 		try {
@@ -38,7 +37,7 @@ public class ClientDao {
 			while (rs.next()) {
 				credential = new Credentials();
 				
-				String identifiant = String.valueOf(rs.getInt(1));
+				String identifiant = String.valueOf(rs.getInt(9));
 				String email = rs.getString(2);
 				String password = rs.getString(3);
 				String nom = rs.getString(4);

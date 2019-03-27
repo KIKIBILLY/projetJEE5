@@ -33,7 +33,8 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="./dist/css/skins/_all-skins.min.css">
 
- 
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -536,20 +537,6 @@
 
 
 
-              
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary">Valider</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-
-
-
-
 
 
 
@@ -822,35 +809,33 @@
         </button>
       </div>
       <div class="modal-body">
-        <h5 > La suppression de la reservation est irréversible</h5>
-        <h5 > Etes vous sure de bien vouloir supprimer la reservation de l'objet :</h5>
-        <p id="IdObj"><p> <p id="LbObj"><p>
+        <h5 > La suppression est irréversible</h5>
+        <h5 > Etes vous sure de bien vouloir supprimer la reservation suivante :</h5>
+         <p>Identifiant de la reservation: </p><p id="IdObj" disabled="true">
+        <p>Libelle : </p><p id="LbObj"> </p>
+       
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <button type="button" class="confirmation btn btn-danger">Confirmer</button>
+        <button type="button" data-id=class="confirmation btn btn-danger">Confirmer</button>
       </div>
     </div>
   </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="jquery-3.3.1.min.js"></script>
+
 
 <script type="text/javascript">
 $(document).on("click", ".del", function () {
-     $("#IdObj").text($(this).data('idReservation'));
-     $("#LbObj").text($(this).data('objet.fp.libelle'));
+     $("#LbObj").text($(this).data('libelle'));
+     $("#IdObj").text($(this).data('id'));
 });
-
 $(document).on("click", ".confirmation", function () {
-	var idPl = $("#idPlP").text();
-	alert("compteAdminListePl?action=Supprimer&idPl="+idPl);
-    document.location="compteAdminListePl?action=Supprimer&idPl="+idPl;
+	var idReservation = $("#IdObj").text();
+	alert("ClientControleur?action=Supprimer&idReservation="+idReservation);
+    document.location="ClientControleur?action=Supprimer&idReservation="+idReservation+"&identifiant_client="+${ identifiant_client };
 });
-
-
 </script>
-
 
 
 <!-- Modal -->

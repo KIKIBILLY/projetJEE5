@@ -56,7 +56,26 @@ public class ClientControleur extends HttpServlet {
 		List<Reservation> reservations = new ArrayList<Reservation>();
 		
 		
-		this.identifiant=request.getParameter("reservation");
+		
+		//suprimer une reservation
+				String action = request.getParameter("action");
+				if(action!=null) {
+		        if (action.equals("Supprimer") ) {
+					try {
+						String id = request.getParameter("idReservation");
+						reservationDao.deleteReservation(id);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				 }
+		        
+		        }
+		
+		
+		this.identifiant=request.getParameter("identifiant");
+			
+		
 		client = clientListeDao.getClient(identifiant);
 		
 		request.setAttribute("client",client);		
@@ -65,8 +84,14 @@ public class ClientControleur extends HttpServlet {
 		
 		employe = employeDao.getEmploye(identifiant_utilisateur);
 		reservations = reservationDao.getReservationByClientIdANDPointLocation(identifiant, employe.getIdentifiant());
-		System.out.println(employe.getIdentifiant());
 		request.setAttribute("reservations", reservations);
+		request.setAttribute("identifiant_client", identifiant);
+		
+		
+		
+		
+		
+		
 		this.getServletContext().getRequestDispatcher("/compteEmployeGestionClient.jsp").forward(request, response);
 	}
 
