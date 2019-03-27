@@ -38,7 +38,8 @@ public class LoginControleur extends HttpServlet {
   String email = request.getParameter("email");
   String password = request.getParameter("password");
   HttpSession session = request.getSession();
-
+  session.invalidate();
+  session = request.getSession();
   
   String page = "login.jsp";
   if(email.trim().length() >= 0 && email != null &&
@@ -58,16 +59,16 @@ public class LoginControleur extends HttpServlet {
     Profile profil= logindao.getProfile(utilisateur);
     
     if (profil==Profile.employe) {
-        response.sendRedirect("ListeClient");
         session.setAttribute("profil", profil);
+        response.sendRedirect("ListeClient");
     	
     }else if(profil==Profile.client){
-    	response.sendRedirect("magasin");
         session.setAttribute("profil", profil);
+    	response.sendRedirect("magasin");
         
     }else {
-    	response.sendRedirect("Admin");
         session.setAttribute("profil", profil);
+    	response.sendRedirect("Admin");
         
     }
     
