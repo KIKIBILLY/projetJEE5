@@ -85,6 +85,13 @@
 		<servlet-name>AdminControleur</servlet-name>
 		<servlet-class>fr.dauphine.miageif.controleur.AdminControleur</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ContratControleur</display-name>
+		<servlet-name>ContratControleur</servlet-name>
+		<servlet-class>fr.dauphine.miageif.controleur.ContratControleur</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>gestionPl</servlet-name>
 		<url-pattern>/compteAdminListePl</url-pattern>
@@ -92,5 +99,9 @@
 	<servlet-mapping>
 		<servlet-name>AdminControleur</servlet-name>
 		<url-pattern>/Admin</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ContratControleur</servlet-name>
+		<url-pattern>/ContratControleur</url-pattern>
 	</servlet-mapping>
 </web-app>

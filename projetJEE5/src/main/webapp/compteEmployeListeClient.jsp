@@ -1,4 +1,6 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ page pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +28,8 @@
 <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="./dist/css/skins/_all-skins.min.css">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
 
 <!-- Google Font -->
 <link rel="stylesheet"
@@ -79,7 +82,7 @@
 										<a href="#" class="btn btn-default btn-flat">Profil</a>
 									</div>
 									<div class="pull-right">
-										<a href="#" class="btn btn-default btn-flat">Se
+										<a href="login.jsp" class="btn btn-default btn-flat">Se
 											deconnecter</a>
 									</div>
 								</li>
@@ -170,7 +173,7 @@
 											<th>Nom</th>
 											<th>Prenom</th>
 											<th>Email</th>
-											<th>Nombre d'objets résérvés</th>
+											<th>Adresse</th>
 											<th>Action</th>
 										</tr>
 									</thead>
@@ -185,7 +188,7 @@
 												<td><c:out value="${ client.nom }" />
 												<td><c:out value="${ client.prenom }" /></td>
 												<td><c:out value="${ client.credential.email }" /></td>
-												<td>pas encore</td>
+												<td><c:out value="${ client.adresseHabitation }" /></td>
 												<td><a
 													href="ClientControleur?identifiant=${client.identifiant}">
 														<button class="btn btn-block btn-success btn-xs">
@@ -234,6 +237,13 @@
 	<!-- AdminLTE for demo purposes -->
 	<script src="./dist/js/demo.js"></script>
 	<!-- page script -->
+	
+<script>
+	$(document).on("click", ".Deco", function () {
+	alert("LoginControleur");
+    document.location="LoginControleur";
+});
+</script>
 	<script>
 		$(function() {
 			$('#example1').DataTable()

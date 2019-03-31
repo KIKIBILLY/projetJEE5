@@ -61,7 +61,7 @@ public class ReservationDao {
 			e.printStackTrace();
 		}
 		Reservation reservation = new Reservation();
-		String query = "select * from reservation where id_client =" + Integer.parseInt(idClient);
+		String query = "select * from reservation where id_client =" + Integer.parseInt(idClient) +"AND  reservation.id_reservation not in (select id_reservation from location)";
 		ObjetDao objetDao = new ObjetDao();
 		List<Reservation> reservations = new ArrayList<Reservation>();
 		ResultSet rs;
@@ -100,7 +100,9 @@ public class ReservationDao {
 				+ "from (reservation  "
 				+ "NATURAL JOIN objet  "
 				+ "JOIN employe on objet.id_stock= employe.identifiant_pl)  "
-				+ "WHERE (reservation.id_client = "+idClient+") AND (employe.identifiant="+idEmploye+")";
+				+ "WHERE (reservation.id_client = "+idClient+") AND (employe.identifiant="+idEmploye+")"
+				+"AND  (reservation.id_reservation "
+				+ "NOT in (select id_reservation from location))";
 		ObjetDao objetDao = new ObjetDao();
 		List<Reservation> reservations = new ArrayList<Reservation>();
 		ResultSet rs;
@@ -126,7 +128,38 @@ public class ReservationDao {
 		db.close();
 		return reservations;
 	}
+	public Reservation getReservationId(String idReservation) throws IOException {
 
+		MysqlDB db = new MysqlDB();
+		Configuration conf = new Configuration();
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Reservation reservation = new Reservation();
+		String query = "select * from reservation where reservation.id_reservation ='" + idReservation+ "'" ;
+		ObjetDao objetDao = new ObjetDao();
+		ResultSet rs;
+		try {
+			rs = db.executeQuery(query);
+			while (rs.next()) {
+				reservation = new Reservation();
+				reservation.setIdReservation(rs.getString(1));
+				reservation.setIdClient(rs.getString(2));
+				reservation.setObjet(objetDao.getObjetById(rs.getString(3)));
+				reservation.setDateReservation(rs.getString(4));
+				reservation.setDateLimitReservation(rs.getString(5));
+				reservation.setNbrJourReservation(rs.getInt(6));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+		return reservation;
+	}
+	
 	public boolean deleteReservation(String id) {
 		MysqlDB db = new MysqlDB();
 		Configuration conf = new Configuration();
@@ -135,6 +168,7 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		String query = "delete from reservation where id_reservation='" + id + "'";
 		try {
 			db.executeQuery(query);
@@ -146,4 +180,5 @@ public class ReservationDao {
 			return false;
 		}
 	}
+	
 }

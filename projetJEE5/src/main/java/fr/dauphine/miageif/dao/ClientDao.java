@@ -28,7 +28,7 @@ public class ClientDao {
 			e.printStackTrace();
 		}
 		
-		String query = "Select * from utilisateur JOIN client on utilisateur.identifiant= client.identifiant_utilisateur WHERE (utilisateur.identifiant= "+ id+")";
+		String query = "Select * from utilisateur JOIN client on utilisateur.identifiant= client.identifiant_utilisateur WHERE (client.identifiant= "+ id+")";
 		try {
 			
 			ResultSet rs = db.executeQuery(query);
@@ -86,7 +86,7 @@ public class ClientDao {
 			while (rs.next()) {
 				client = new Client();
 				credential = new Credentials();
-				String identifiant = String.valueOf(rs.getInt(1));
+				String identifiant = String.valueOf(rs.getInt(9));
 				String email = rs.getString(2);
 				String password = rs.getString(3);
 				String nom = rs.getString(4);

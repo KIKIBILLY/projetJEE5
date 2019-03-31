@@ -1,4 +1,5 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,18 +34,13 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="./dist/css/skins/_all-skins.min.css">
 
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="jquery-3.3.1.min.js"></script>
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+ 
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -96,7 +92,7 @@
 										<a href="#" class="btn btn-default btn-flat">Profil</a>
 									</div>
 									<div class="pull-right">
-										<a href="#" class="btn btn-default btn-flat">Se
+										<a href="login.jsp" class="btn  btn-default btn-flat">Se
 											deconnecter</a>
 									</div>
 								</li>
@@ -146,6 +142,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
+    
       <h1>
         Profil du client
       </h1>
@@ -175,10 +172,10 @@
                 
                 
                 
-                  <b>Nombre de Réservations</b> <a class="pull-right">22</a>
+                  <b>Nombre de Réservations</b> <a class="pull-right"><c:out value="${ reservations.size()}" /></a>
                 </li>
                 <li class="list-group-item">
-                  <b>Nombre de Locations</b> <a class="pull-right">3</a>
+                  <b>Nombre de Locations</b> <a class="pull-right"><c:out value="${ locations.size()}" /></a>
                 </li>
               </ul>
            
@@ -220,11 +217,12 @@
         <div class="col-md-9">
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-              <li class="active"><a href="#reservation" data-toggle="tab">Réservation</a></li>
-              <li><a href="#location" data-toggle="tab">Location</a></li>
+              <li class="active"><a href="#reservation" data-toggle="tab">Réservations</a></li>
+              <li><a href="#location" data-toggle="tab">Locations</a></li>
             </ul>
             <div class="tab-content">
               <div class="active tab-pane" id="reservation">
+                <form action="ClientControleur" method="POST">
 
           <div class="box">
             <div class="box-header">
@@ -245,9 +243,10 @@
                 
                 </thead>
                 <tbody>
+                
                 <c:forEach items="${ reservations }" var="reservation">
                 <tr> 
-                  <td> <input type="checkbox"><c:out value="${ reservation.idReservation}" /></td>
+                  <td> <input name="check" value="${ reservation.idReservation}" class="minimal" type="checkbox">   <c:out value="   ${ reservation.idReservation}" /></td>
                   <td><c:out value="${ reservation.objet.categorie}" /></td>
                   <td><c:out value="${ reservation.objet.fp.libelle}" /></td>
                   <td><c:out value="${ reservation.objet.fp.pxlj}" /></td>
@@ -260,23 +259,19 @@
                   </td>
                 </tr>
                	</c:forEach>
-               
+              
                 </tbody>
                 
               </table>
-              
-              	
-
-
-              
+         
 
             </div>
 
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">Préparation du contrat</button>
+                <button type="submit" class="contrat btn btn-block btn-success" >Valider les réservations</button>
             </div>
-            <!-- /.box-body -->
           </div>
+           </form>
 
               </div>
 
@@ -296,48 +291,46 @@
             <div class="box-body">
               <table id="example2" class="table table-bordered table-striped">
                 <thead>
+                
                 <tr>
-                  <th>Référence de l'objet</th>
-                  <th>Designation</th>
+                  <th>Id Location</th>
+                  <th>Id Reservation</th>
                   <th>Date de location</th>
-                  <th>Quantité</th>
-                  <th>Prix/jr</th>
+                  <th>Date limite de location</th>
                   <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                
+                 <c:forEach items="${ locations }" var="location">
                 <tr>
                   
-                  <td><input type="checkbox"> Misc</td>
-                  <td>Links</td>
-                  <td>Text only</td>
-                  <td>-</td>
-                  <td>-</td>
+                  <td> <c:out value="${ location.idLocation}" /></td>
+                  <td><c:out value="${ location.reservation.idReservation}" /></td>
+                  <td><c:out value="${ location.dateLocation}" /></td>
+                  <td><c:out value="${ location.dateLimitLocation}" /></td>
                   
                   <td> 
-                  <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#lightbox"><i class="fa fa-eye"></i></button>
-                  <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal-defaultview"><i class="fa fa-paperclip"></i></button>
                   <button type="button" class="btn btn-default btn-sm"><i class="fa fa-money"></i></button>
                   </td>
                 </tr>
-               
+               </c:forEach>
                 </tbody>
                 
               </table>
             </div>
+            
+            
+            
+            <div class="box-footer">
+                <a href="ContratControleur?identifiant=${client.identifiant}"><button  class="contrat btn btn-block btn-warning" >Consulter Contrat</button></a>
+            </div>
             <!-- /.box-body -->
           </div>
-
+ 
               </div>
 
 
 
-                  <!-- END timeline item -->
-                  <li>
-                    <i class="fa fa-clock-o bg-gray"></i>
-                  </li>
-                </ul>
               </div>
               
             </div>
@@ -355,449 +348,11 @@
   <!-- /.content-wrapper -->
 
 
-    
 
-<!-- modals -->
- <div class="modal fade" id="modal-default">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Préparer un nouveau contrat</h4>
-              </div>
-           
 
 
 
-<!-- element 1 -->
 
-              <div class="modal-body">
-                
-
-
-
-
-                 <div class="box box-warning">
-            <div class="box-header with-border">
-              <div class="box-header">
-              <h4 class="box-title">Objet 1</h4>
-            
-            <!-- /.box-header -->
-            <div class="box-body">
-              <form role="form">
-                <!-- text input -->
-                 
-                <div class="form-group">
-
-                  <div class="col-lg-6">
-              
-                  <label>Identifiant réservation</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-                  <label>libellé</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  <label>Prix de location a  la journée</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-                 
-                  <label>Cautions payées</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  </div>
-                  <div class="col-lg-6">
-                  <label>Amendes de dépassement/jour</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-                 
-
-                   <label>Date de debut de location</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  <label>Date de fin de location</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                   <label>Dates limite de retour</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-                  </div>
-                  <div class="col-lg-12">
-                  <label>Description</label>
-                  <textarea  type="text" rows="3" class="form-control" placeholder="1" disabled> </textarea>
-
-                  <label>Defauts</label>
-                  <textarea type="text" rows="3" class="form-control" placeholder="1" disabled></textarea>
-
-                  </div>
-                </div>
-
-              
-
-              </form>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          </div>
-            </div>
-</div>
-
-
-
-
-
-
-<!-- element 1 -->
-
-
-        <div class="modal-body">
-                
-
-
-
-
-                 <div class="box box-warning">
-            <div class="box-header with-border">
-              <div class="box-header">
-              <h4 class="box-title">Objet 2</h4>
-            
-            <!-- /.box-header -->
-            <div class="box-body">
-               <form role="form">
-                <!-- text input -->
-                 
-                <div class="form-group">
-
-                  <div class="col-lg-6">
-              
-                  <label>Identifiant réservation</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-                  <label>libellé</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  <label>Prix de location a  la journée</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-                 
-                  <label>Cautions payées</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  </div>
-                  <div class="col-lg-6">
-                  <label>Amendes de dépassement/jour</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-                 
-
-                   <label>Date de debut de location</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  <label>Date de fin de location</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                   <label>Dates limite de retour</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-                  </div>
-                  <div class="col-lg-12">
-                  <label>Description</label>
-                  <textarea  type="text" rows="3" class="form-control" placeholder="1" disabled> </textarea>
-
-                  <label>Defauts</label>
-                  <textarea type="text" rows="3" class="form-control" placeholder="1" disabled></textarea>
-
-                  </div>
-                </div>
-
-              
-
-              </form>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          </div>
-            </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- <div class="modal fade" id="modal-defaultview">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Contrat de location</h4>
-              </div>
-           
-
-
-
-<!-- element 1 -->
-
-              <div class="modal-body">
-                
-
-
-
-
-                 <div class="box box-warning">
-            <div class="box-header with-border">
-              <div class="box-header">
-              <h4 class="box-title">Objet 1</h4>
-            
-            <!-- /.box-header -->
-            <div class="box-body">
-              <form role="form">
-                <!-- text input -->
-                 
-                <div class="form-group">
-
-                  <div class="col-lg-6">
-              
-                  <label>Identifiant réservation</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-                  <label>libellé</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  <label>Prix de location a  la journée</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-                 
-                  <label>Cautions payées</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  </div>
-                  <div class="col-lg-6">
-                  <label>Amendes de dépassement/jour</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-                 
-
-                   <label>Date de debut de location</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  <label>Date de fin de location</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                   <label>Dates limite de retour</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-                  </div>
-                  <div class="col-lg-12">
-                  <label>Description</label>
-                  <textarea  type="text" rows="3" class="form-control" placeholder="1" disabled> </textarea>
-
-                  <label>Defauts</label>
-                  <textarea type="text" rows="3" class="form-control" placeholder="1" disabled></textarea>
-
-                  </div>
-                </div>
-
-              
-
-              </form>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          </div>
-            </div>
-</div>
-
-
-
-
-
-
-<!-- element 1 -->
-
-
-        <div class="modal-body">
-                
-
-
-
-
-                 <div class="box box-warning">
-            <div class="box-header with-border">
-              <div class="box-header">
-              <h4 class="box-title">Objet 2</h4>
-            
-            <!-- /.box-header -->
-            <div class="box-body">
-               <form role="form">
-                <!-- text input -->
-                 
-                <div class="form-group">
-
-                  <div class="col-lg-6">
-              
-                  <label>Identifiant réservation</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-                  <label>libellé</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  <label>Prix de location a  la journée</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-                 
-                  <label>Cautions payées</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  </div>
-                  <div class="col-lg-6">
-                  <label>Amendes de dépassement/jour</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-                 
-
-                   <label>Date de debut de location</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                  <label>Date de fin de location</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-
-
-                   <label>Dates limite de retour</label>
-                  <input type="text" class="form-control" placeholder="1" disabled>
-                  </div>
-                  <div class="col-lg-12">
-                  <label>Description</label>
-                  <textarea  type="text" rows="3" class="form-control" placeholder="1" disabled> </textarea>
-
-                  <label>Defauts</label>
-                  <textarea type="text" rows="3" class="form-control" placeholder="1" disabled></textarea>
-
-                  </div>
-                </div>
-
-              
-
-              </form>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          </div>
-            </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
-             
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary">Valider</button>
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-
-
-
-
-<style>
-.modal.and.carousel {
-  position: fixed; // Needed because the carousel overrides the position property
-}
-</style>
-
-
-  <div class="modal fade and carousel slide" id="lightbox">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-body">
-          <ol class="carousel-indicators">
-            <li data-target="#lightbox" data-slide-to="0" class="active"></li>
-            <li data-target="#lightbox" data-slide-to="1"></li>
-            <li data-target="#lightbox" data-slide-to="2"></li>
-          </ol>
-          <div class="carousel-inner">
-            <div class="item active">
-              <img src="https://dyw7ncnq1en5l.cloudfront.net/news/46/46551/tesla-model-s-web.jpg" alt="First slide">
-            </div>
-            <div class="item">
-              <img src="https://dyw7ncnq1en5l.cloudfront.net/news/46/46551/tesla-model-s-web.jpg" alt="Second slide">
-            </div>
-            <div class="item">
-              <img src="https://dyw7ncnq1en5l.cloudfront.net/news/46/46551/tesla-model-s-web.jpg" alt="Third slide">
-              <div class="carousel-caption"></div>
-            </div>
-          </div><!-- /.carousel-inner -->
-          <a class="left carousel-control" href="#lightbox" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left"></span>
-          </a>
-          <a class="right carousel-control" href="#lightbox" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right"></span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -811,31 +366,20 @@
       <div class="modal-body">
         <h5 > La suppression est irréversible</h5>
         <h5 > Etes vous sure de bien vouloir supprimer la reservation suivante :</h5>
-         <p>Identifiant de la reservation: </p><p id="IdObj" disabled="true">
-        <p>Libelle : </p><p id="LbObj"> </p>
+         <div><p>Identifiant de la reservation: </p><p id="IdObj"></p> </div>
+       <div> <p>Libelle : </p><p id="LbObj"> </p></div>
        
         
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <button type="button" data-id=class="confirmation btn btn-danger">Confirmer</button>
+        <button type="button" class="confirmation btn btn-danger">Confirmer</button>
       </div>
     </div>
   </div>
 </div>
 
 
-<script type="text/javascript">
-$(document).on("click", ".del", function () {
-     $("#LbObj").text($(this).data('libelle'));
-     $("#IdObj").text($(this).data('id'));
-});
-$(document).on("click", ".confirmation", function () {
-	var idReservation = $("#IdObj").text();
-	alert("ClientControleur?action=Supprimer&idReservation="+idReservation);
-    document.location="ClientControleur?action=Supprimer&idReservation="+idReservation+"&identifiant_client="+${ identifiant_client };
-});
-</script>
 
 
 <!-- Modal -->
@@ -914,18 +458,28 @@ $(document).on("click", ".confirmation", function () {
 <script src="./dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="./dist/js/demo.js"></script>
+
+<script type="text/javascript">
+$(document).on("click", ".del", function () {
+     $("#LbObj").text($(this).data('libelle'));
+     $("#IdObj").text($(this).data('id'));
+     
+     
+});
+
+$(document).on("click", ".confirmation", function () {
+	var idReservation = $("#IdObj").text();
+	alert("ClientControleur?action=Supprimer&idReservation="+idReservation+"&identifiant="+  ${client.identifiant});
+    document.location="ClientControleur?action=Supprimer&idReservation="+idReservation+"&identifiant="+ ${client.identifiant };
+});
+
+
+</script>
 <!-- page script -->
 <script>
   $(function () {
     $('#example1').DataTable()
-    $('#example2').DataTable({
-      'paging'      : true,
-      'lengthChange': false,
-      'searching'   : false,
-      'ordering'    : true,
-      'info'        : true,
-      'autoWidth'   : false
-    })
+    $('#example2').DataTable()
   })
 </script>
 
