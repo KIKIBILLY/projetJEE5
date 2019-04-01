@@ -12,12 +12,11 @@ import fr.dauphine.miageif.dao.PointLocationDao;
 
 public class ParametresControleur extends HttpServlet {
 	ParametresDao metier;
-	PointLocationDao pl;
 	@Override
 	public void init() throws ServletException {
 		
 		metier = new ParametresDao();
-		pl = new PointLocationDao();
+		
 	}
 	
 	@Override
@@ -29,23 +28,7 @@ public class ParametresControleur extends HttpServlet {
 		request.setAttribute("NDMR",metier.getParametres().getNDMR());
 		request.setAttribute("NMOL",metier.getParametres().getNMOL());
 		
-		request.setAttribute("pls", pl.getListPointlocation());
-        
-		String action = request.getParameter("action");
-		if(action!=null) {
-        if (action.equals("Supprimer") ) {
-			try {
-				int id = Integer.parseInt(request.getParameter("idPl"));
-				System.out.println("==========="+id);
-				pl.deletePointLocation(id);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
-			
-		 }
-        }
-		request.getRequestDispatcher("compteAdminListePl.jsp").forward(request, response);
+		request.getRequestDispatcher("compteAdminParametres.jsp").forward(request, response);
 		
 	}
 	

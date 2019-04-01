@@ -50,7 +50,26 @@ public class PointLocationDao {
 		db.close();
 		return pl;
 	}
-
+public void addPl(PointLocation point) throws IOException {
+		
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String query1 = "INSERT INTO point_location (libelle, adresse) VALUES ('"+point.getLibelle()+"','"+point.getAdresse()+"')";
+		try {
+			db.executeQuery(query1);
+	
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+	}
+	
 	public List<PointLocation> getListPointlocation() throws IOException {
 		MysqlDB db = new MysqlDB();
 		Configuration conf = new Configuration();

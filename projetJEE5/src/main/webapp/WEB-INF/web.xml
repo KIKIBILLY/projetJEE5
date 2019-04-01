@@ -74,8 +74,25 @@
 		<servlet-name>ClientControleur</servlet-name>
 		<url-pattern>/ClientControleur</url-pattern>
 	</servlet-mapping>
+	
+	
 	<servlet>
-		<servlet-name>gestionPl</servlet-name>
+		<description>
+		</description>
+		<display-name>ContratControleur</display-name>
+		<servlet-name>ContratControleur</servlet-name>
+		<servlet-class>fr.dauphine.miageif.controleur.ContratControleur</servlet-class>
+	</servlet>
+	
+	
+	<servlet-mapping>
+		<servlet-name>ContratControleur</servlet-name>
+		<url-pattern>/ContratControleur</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>gestionParam</servlet-name>
 		<servlet-class>fr.dauphine.miageif.controleur.ParametresControleur</servlet-class>
 	</servlet>
 	<servlet>
@@ -88,20 +105,66 @@
 	<servlet>
 		<description>
 		</description>
-		<display-name>ContratControleur</display-name>
-		<servlet-name>ContratControleur</servlet-name>
-		<servlet-class>fr.dauphine.miageif.controleur.ContratControleur</servlet-class>
+		<display-name>GestionStockControleur</display-name>
+		<servlet-name>GestionStockControleur</servlet-name>
+		<servlet-class>fr.dauphine.miageif.controleur.GestionStockControleur</servlet-class>
 	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ProfileEmployeControleur</display-name>
+		<servlet-name>ProfileEmployeControleur</servlet-name>
+		<servlet-class>fr.dauphine.miageif.controleur.ProfileEmployeControleur</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>PointLocationControleur</display-name>
+		<servlet-name>PointLocationControleur</servlet-name>
+		<servlet-class>fr.dauphine.miageif.controleur.PointLocationControleur</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ProfileAdmin</display-name>
+		<servlet-name>ProfileAdmin</servlet-name>
+		<servlet-class>fr.dauphine.miageif.controleur.ProfileAdminControleur</servlet-class>
+	</servlet>
+	<servlet>
+		<description>
+		</description>
+		<display-name>ProfileClientControleur</display-name>
+		<servlet-name>ProfileClientControleur</servlet-name>
+		<servlet-class>fr.dauphine.miageif.controleur.ProfileClientControleur</servlet-class>
+	</servlet>
+
 	<servlet-mapping>
-		<servlet-name>gestionPl</servlet-name>
-		<url-pattern>/compteAdminListePl</url-pattern>
+		<servlet-name>gestionParam</servlet-name>
+		<url-pattern>/Parametres</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>AdminControleur</servlet-name>
 		<url-pattern>/Admin</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>ContratControleur</servlet-name>
-		<url-pattern>/ContratControleur</url-pattern>
+		<servlet-name>GestionStockControleur</servlet-name>
+		<url-pattern>/GestionStock</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProfileEmployeControleur</servlet-name>
+		<url-pattern>/ProfileEmploye</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>PointLocationControleur</servlet-name>
+		<url-pattern>/ListePl</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProfileAdmin</servlet-name>
+		<url-pattern>/ProfileAdmin</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ProfileClientControleur</servlet-name>
+		<url-pattern>/ProfileClient</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

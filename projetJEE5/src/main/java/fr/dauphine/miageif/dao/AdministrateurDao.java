@@ -108,5 +108,87 @@ public class AdministrateurDao {
 		db.close();
 		return admins;
 	}
+	public Administrateur getAdminByEmail (String email) throws IOException  {
+		Administrateur admin = new Administrateur();
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String query = "Select * from utilisateur JOIN administrateur on utilisateur.identifiant= administrateur.identifiant_utilisateur WHERE (utilisateur.email='"+email+"')";
+		try {
+			
+			ResultSet rs = db.executeQuery(query);
+
+			Credentials credential = null;
+			while (rs.next()) {
+				credential = new Credentials();
+				
+				String identifiant = String.valueOf(rs.getInt(1));
+				String password = rs.getString(3);
+				String nom = rs.getString(4);
+				String prenom = rs.getString(5);
+				String numtel = rs.getString(6);
+				String adresse = rs.getString(7);
+				String urlPhoto = rs.getString(8);
+				
+				admin.setIdentifiant(identifiant);
+				credential.setEmail(email);
+				credential.setPassword(password);
+				admin.setCredential(credential);				
+				admin.setNom(nom);
+				admin.setPrenom(prenom);
+				admin.setNumeroTel(numtel);
+				admin.setAdresseHabitation(adresse);
+				admin.setUrlPhoto(urlPhoto);
+				
+				
+			
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+		return admin;
+	}
+public void updateAdmin(Administrateur admin, String emailAncien) throws IOException {
+		
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String query = "UPDATE utilisateur SET email = '"+admin.getCredential().getEmail()+"', password = '"+admin.getCredential().getPassword()+"', nom = '"+admin.getNom()+"', prenom = '"+admin.getPrenom()+"', num_tel ='"+admin.getNumeroTel()+"', adresse_habitation = '"+admin.getAdresseHabitation()+"' WHERE email='"+emailAncien+"' ";
+		try {
+			db.executeQuery(query);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+	}
+
+public void deleteAdmin(int id) throws IOException {
+	MysqlDB db = new MysqlDB();
+	Configuration conf = new Configuration();
+	
+	String query = "DELETE FROM administrateur where identifiant="+id;
+	try {
+		db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		db.executeQuery(query);
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	db.close();
+		
+	
+}
+	
+	
 
 }

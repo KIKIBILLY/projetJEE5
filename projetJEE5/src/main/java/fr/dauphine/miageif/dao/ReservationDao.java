@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import fr.dauphine.miageif.bean.Client;
+import fr.dauphine.miageif.bean.Credentials;
 import fr.dauphine.miageif.bean.Reservation;
 import fr.dauphine.miageif.config.Configuration;
 import fr.dauphine.miageif.db.MysqlDB;
@@ -128,6 +130,43 @@ public class ReservationDao {
 		db.close();
 		return reservations;
 	}
+	
+	
+	public Client getClientDeReservation(String idObjet) throws IOException {
+
+		MysqlDB db = new MysqlDB();
+		Configuration conf = new Configuration();
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Reservation reservation = new Reservation();
+		String query = "select * from reservation r join client c on r.id_client=c.identifiant join utilisateur u on u.identifiant=c.identifiant_utilisateur where r.id_objet ='"+idObjet+"'";
+		
+		Client client = new Client();
+		Credentials credential = new Credentials();
+		ResultSet rs;
+		try {
+			rs = db.executeQuery(query);
+			while (rs.next()) {
+				credential.setEmail(rs.getString(10));
+				client.setNom(rs.getString(12));
+				client.setPrenom(rs.getString(13));
+				client.setAdresseHabitation(rs.getString(15));
+				client.setNumeroTel(rs.getString(14));
+				client.setCredential(credential);;
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+		return client;
+	}
+	
+	
 	public Reservation getReservationId(String idReservation) throws IOException {
 
 		MysqlDB db = new MysqlDB();

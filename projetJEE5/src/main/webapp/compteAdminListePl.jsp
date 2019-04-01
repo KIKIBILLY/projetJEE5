@@ -1,11 +1,12 @@
-ect <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Paramètrage</title>
+<title>Points de location</title>
+<link href="img/rent.png" rel="icon">
 <!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
@@ -32,6 +33,10 @@ ect <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!-- Google Font -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link href='custom.css' rel='stylesheet' type='text/css'>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="jquery-3.3.1.min.js"></script>
@@ -67,12 +72,78 @@ $(document).on("click", ".del", function () {
 
 $(document).on("click", ".confirmation", function () {
 	var idPl = $("#idPlP").text();
-	alert("compteAdminListePl?action=Supprimer&idPl="+idPl);
-    document.location="compteAdminListePl?action=Supprimer&idPl="+idPl;
+    document.location="ListePl?action=Supprimer&idPl="+idPl;
 });
 
+</script>
+
+<script>  
+var request=new XMLHttpRequest(); 
+
+function searchInfo(){  
+var name=document.vinform.name.value;  
+var url="rechercherPl.jsp?val="+name;  
+  
+try{  
+request.onreadystatechange=function(){  
+if(request.readyState==4){  
+var val=request.responseText;  
+document.getElementById('mylocation').innerHTML=val;  
+}  
+}//end of function  
+request.open("GET",url,true);  
+request.send();  
+}catch(e){alert("Unable to connect to server");}  
+}  
+</script>
+<script type="text/javascript">
+$(function () {
+
+    function initMap() {
+
+        var location = new google.maps.LatLng(49.0333, 2.0667);
+
+        var mapCanvas = document.getElementById('map');
+        var mapOptions = {
+            center: location,
+            zoom: 16,
+            panControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+
+        var markerImage = 'img/marker.png';
+
+        var marker = new google.maps.Marker({
+            position: location,
+            map: map,
+            icon: markerImage
+        });
+
+        var contentString = '<div class="info-window">' +
+                '<h3>Point de Cergy</h3>' +
+                '<div class="info-content">' +
+                '<p>9 Le Square de echequier 95800 CERGY</p>' +
+                '</div>' +
+                '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 400
+        });
+
+        marker.addListener('click', function () {
+            infowindow.open(map, marker);
+        });
+
+
+    }
+
+    google.maps.event.addDomListener(window, 'load', initMap);
+});
 
 </script>
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -148,14 +219,22 @@ $(document).on("click", ".confirmation", function () {
 
 
 
-
-					<li ><a href="./Admin"> <i class="fa fa-circle-o"></i> <span>Gestion
+					<li ><a href="Admin"> <i class="fa fa-circle-o"></i> <span>Gestion
 								des utilisateurs</span>
 
 					</a></li>
 
-					<li class="active" ><a > <i class="fa fa-circle-o"></i>
-							<span>Gestion des PL</span>
+					<li class="active" ><a href="ListePl"> <i class="fa fa-circle-o"></i>
+							<span>Gestion des Points de location</span>
+
+					</a></li>
+					
+					<li ><a href="Parametres"> <i class="fa fa-circle-o"></i>
+							<span>Gestion des paramètres</span>
+
+					</a></li>
+					<li><a href="ProfileAdmin"> <i class="fa fa-circle-o"></i>
+							<span>Gestion du compte</span>
 
 					</a></li>
 
@@ -168,49 +247,17 @@ $(document).on("click", ".confirmation", function () {
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 			
+            <section class="content-header">
+			 
+              <div class="col-md-3 ">
+      	       <button type="button" class="btn btn-primary" id="ajouterEmploye" data-toggle="modal" data-target="#ajouterEmployé">
+  		         Ajouter une agence
+		       </button>
+              </div>
 			
-			<section class="content-header">
-				<h1>Gestion des paramètres</h1>
 			</section>
-
-			<section class="content-header">
-				<div class="box box-primary">
-					<form action="compteAdminListePl" method="post" role="form">
-						<div class="box-body">
-							<div class="form-group">
-								<label for="exampleInputEmail1">Durée maximum de location (NDML)</label> <input
-									type="number" class="form-control" name="NDML" value="${NDML}"
-									required="true">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Durée minimum de location (NDmL)</label> <input
-									type="number" class="form-control" name="NDmL" value="${NDmL}"
-									required="true">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Nombre maximum d’objets réservés (NMOR)</label> <input
-									type="number" class="form-control" name="NMOR" value="${NMOR}"
-									required="true">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Durée maximum de réservation (NDMR)</label> <input
-									type="number" class="form-control" name="NDMR" value="${NDMR}"
-									required="true">
-							</div>
-							<div class="form-group">
-								<label for="exampleInputEmail1">Nombre maximum d’objets loués (NMOL)</label> <input
-									type="number" class="form-control" name="NMOL" value="${NMOL}"
-									required="true">
-							</div>
-						</div>
-						<!-- /.box-body -->
-
-						<div class="box-footer">
-							<input type="submit" class="btn btn-primary" name="action" value="Modifier">
-						</div>
-					</form>
-				</div>
-			</section>
+			<br>
+			<br>
 			
 			<section class="content-header">
 				<h1>Gestion des points de locations</h1>
@@ -219,7 +266,7 @@ $(document).on("click", ".confirmation", function () {
 			<!-- Main content -->
 			<section class="content">
 				<div class="row">
-					<div class="col-xs-12">
+					<div class="col-xs-8">
 
 						<div class="box">
 							<div class="box-header">
@@ -258,7 +305,13 @@ $(document).on("click", ".confirmation", function () {
 						</div>
 						<!-- /.box -->
 					</div>
-					<!-- /.col -->
+					
+					<div class="box box-success col-xs-4">
+					  <div style="height: 300px;"  id="map">
+					  </div>
+					</div>
+					
+					
 				</div>
 				<!-- /.row -->
 			</section>
@@ -268,6 +321,10 @@ $(document).on("click", ".confirmation", function () {
 
 
 		</div>
+		<footer class="main-footer">
+    
+   			 <strong>Copyright &copy; 2018-2019   Easy Rent.</strong> Tous droits réservés 
+ 		 </footer>
 
 
 		<!-- Add the sidebar's background. This div must be placed
@@ -277,38 +334,43 @@ $(document).on("click", ".confirmation", function () {
 	<!-- ./wrapper -->
 
 	<!-- jQuery 3 -->
-	<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<!-- Bootstrap 3.3.7 -->
-	<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- DataTables -->
 	<script
-		src="./bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+		src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 	<script
-		src="./bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+		src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 	<!-- SlimScroll -->
 	<script
-		src="./bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+		src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
-	<script src="./bower_components/fastclick/lib/fastclick.js"></script>
+	<script src="bower_components/fastclick/lib/fastclick.js"></script>
 	<!-- AdminLTE App -->
-	<script src="./dist/js/adminlte.min.js"></script>
+	<script src="dist/js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->
-	<script src="./dist/js/demo.js"></script>
+	<script src="dist/js/demo.js"></script>
 	<!-- page script -->
+	
+	
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu5nZKbeK-WHQ70oqOWo-_4VmwOwKP9YQ"></script>
+        <script src="custom.js"></script>
 	<script>
 		$(function() {
 			$('#example1').DataTable()
-			$('#example2').DataTable()
-			$('#example3').DataTable()
-
-		})
+		});
 	</script>
-	
-	
 </body>
-</html>
-<!-- Button trigger modal -->
-
+<style>
+#resultatRech {
+    
+    position:absolute;
+    z-index:1;
+}
+</style>
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -324,7 +386,8 @@ $(document).on("click", ".confirmation", function () {
         <h5 > Etes vous sure de bien vouloir supprimer ce point de location ?</h5>
         <h5></h5>
         <p id="libPl"><p>
-        <p id="idPlP"><p>
+        <p hidden id="idPlP"><p>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
@@ -333,3 +396,47 @@ $(document).on("click", ".confirmation", function () {
     </div>
   </div>
 </div>
+
+<!-- Modal editable -->
+<div class="modal fade" id="ajouterEmployé" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ajouter un point de location</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" action="ListePl" method="post">
+                    
+                
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label" required="true">Libellé</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName" name="libelle" placeholder="Libellé" required="true">
+                    </div>
+                  </div>
+      
+                  <div class="form-group">
+                    <label for="inputExperience" class="col-sm-2 control-label">Adresse</label>
+
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" name="adresse" placeholder="Adresse" required="true"></textarea>
+                    </div>
+                  </div>
+                
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <input type="submit" class="btn btn-primary" name="action" value="Ajouter">
+                    </div>
+               </div>
+           </form>
+      </div>
+     </div>
+  </div>
+</div>
+</html>
+<!-- Button trigger modal -->
+

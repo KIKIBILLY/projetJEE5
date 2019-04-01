@@ -67,7 +67,36 @@ public class EmployeeDao {
 		db.close();
 		return emp;
 	}
-	
+public void addEmploye(Employe employe) throws IOException {
+		
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String query1 = "INSERT INTO utilisateur (email, password, nom, prenom, num_tel, adresse_habitation,url_photo) VALUES ('"+employe.getCredential().getEmail()+"', '"+employe.getCredential().getPassword()+"','"+employe.getNom()+"','"+employe.getPrenom()+"','"+employe.getNumeroTel()+"','"+employe.getAdresseHabitation()+"','"+employe.getUrlPhoto()+"') ";
+		String temp = "SELECT * FROM utilisateur WHERE email='"+employe.getCredential().getEmail()+"'";
+		
+		try {
+			db.executeQuery(query1);
+			ResultSet rs = db.executeQuery(temp);
+			while (rs.next()) {
+				
+				String query2 = "INSERT INTO employe (identifiant_pl, identifiant_utilisateur) VALUES ("+Integer.valueOf(employe.getIdentifiantPL())+","+rs.getInt(1)+")";
+				db.executeQuery(query2);
+			
+			}
+			
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+	}
 	
 	public Employe getEmployeByEmail (String email) throws IOException  {
 		Employe emp = new Employe();
@@ -163,4 +192,56 @@ public class EmployeeDao {
 		db.close();
 		return emps;
 	}
+	public void deleteClient(int id) throws IOException {
+		MysqlDB db = new MysqlDB();
+		Configuration conf = new Configuration();
+		
+		String query = "DELETE FROM utilisateur where identifiant="+id;
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+			db.executeQuery(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();		
+		
+	}
+
+public void updateEmploye(Employe employe, String emailAncien) throws IOException {
+	
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String query = "UPDATE utilisateur SET email = '"+employe.getCredential().getEmail()+"', password = '"+employe.getCredential().getPassword()+"', nom = '"+employe.getNom()+"', prenom = '"+employe.getPrenom()+"', num_tel ='"+employe.getNumeroTel()+"', adresse_habitation = '"+employe.getAdresseHabitation()+"' WHERE email='"+emailAncien+"' ";
+		try {
+			db.executeQuery(query);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+	}
+
+public void deleteEmploye(int id) throws IOException {
+		MysqlDB db = new MysqlDB();
+		Configuration conf = new Configuration();
+		String query = "DELETE FROM employe where identifiant="+id;
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+			db.executeQuery(query);	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+			
+		
+	}
+
+
 }

@@ -1,12 +1,12 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page pageEncoding="UTF-8" %>
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Gestion des utilisateurs</title>
+<link href="img/rent.png" rel="icon">
 <!-- Tell the browser to be responsive to screen width -->
 <meta
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
@@ -35,6 +35,65 @@
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+$(document).on("click", ".del", function () {
+     $("#nomUser").text($(this).data('nom'));
+     $("#idUser").text($(this).data('id'));
+     $("#roleUser").text($(this).data('role'));
+});
+
+$(document).on("click", ".confirmation", function () {
+	var id = $("#idUser").text();
+	var role = $("#roleUser").text();
+    document.location="Admin?action=Supprimer&id="+id+"&role="+role;
+});
+
+</script>
+<script>  
+var request=new XMLHttpRequest(); 
+
+function searchInfo(){  
+var name=document.vinform.name.value;  
+var url="rechercheUtilisateur.jsp?val="+name;  
+  
+try{  
+request.onreadystatechange=function(){  
+if(request.readyState==4){  
+var val=request.responseText;  
+document.getElementById('mylocation').innerHTML=val;  
+}  
+}//end of function  
+request.open("GET",url,true);  
+request.send();  
+}catch(e){alert("Unable to connect to server");}  
+}  
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$("#ajouterEmploye").click(function() 
+			{
+
+				var request=new XMLHttpRequest(); 
+				var url="chargerListePl.jsp?";  
+				try{  
+				request.onreadystatechange=function(){  
+				if(request.readyState==4){  
+				var val=request.responseText;  
+				document.getElementById('optionPl').innerHTML=val;  
+				}  
+				}//end of function  
+				request.open("GET",url,true);  
+				request.send();  
+				}catch(e){alert("Unable to connect to server");}  
+				 
+
+			}); 
+  });
+
+
+</script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -111,13 +170,23 @@
 
 
 
+					
 					<li class="active"><a> <i class="fa fa-circle-o"></i> <span>Gestion
 								des utilisateurs</span>
 
 					</a></li>
 
-					<li><a href="./compteAdminListePl"> <i class="fa fa-circle-o"></i>
-							<span>Gestion des PL</span>
+					<li  ><a href="ListePl"> <i class="fa fa-circle-o"></i>
+							<span>Gestion des Points de location</span>
+
+					</a></li>
+					
+					<li ><a href="Parametres"> <i class="fa fa-circle-o"></i>
+							<span>Gestion des paramètres</span>
+
+					</a></li>
+					<li><a href="ProfileAdmin"> <i class="fa fa-circle-o"></i>
+							<span>Gestion du compte</span>
 
 					</a></li>
 
@@ -131,7 +200,27 @@
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
+			  <div class="col-md-4 ">
+               <form name="vinform">
+                <div class="input-group">
+                 <input type="text" name="name" onkeyup="searchInfo()" class="form-control" placeholder="Nom, Prénom, Email ...">
+                </div>
+                <div class="" id="resultatRech">
+     	          <span id="mylocation"></span> 
+   	   	        </div>
+               </form>
+              </div>
+      
+              <div class="col-md-3 ">
+      	       <button type="button" class="btn btn-primary" id="ajouterEmploye" data-toggle="modal" data-target="#ajouterEmployé">
+  		         Ajouter un employé
+		       </button>
+              </div>
 			
+			</section>
+			<br>
+			<br>
+			<section class="content-header">
 				<h1>Gestion des employés</h1>
 			</section>
 			
@@ -171,7 +260,7 @@
 												<button class="add-to-cart-btn" >
 													<i class="fa fa-edit"></i>
 												</button>
-												<button type="button" class="del add-to-cart-btn" data-id="${e.identifiant}" data-nom="${e.nom}" data-toggle="modal" data-target="#exampleModalCenter">
+												<button type="button" class="del add-to-cart-btn" data-id="${e.identifiant}" data-nom="${e.nom}" data-role="employe" data-toggle="modal" data-target="#exampleModalCenter">
 													<i class="fa fa-trash"></i><!-- a href="javascript:confirmation('${pl.idPL}')"></a-->
 												</button>
 											</td>
@@ -226,7 +315,7 @@
 												<button class="add-to-cart-btn" >
 													<i class="fa fa-edit"></i>
 												</button>
-												<button type="button" class="del add-to-cart-btn" data-id="${a.identifiant}" data-nom="${a.nom}" data-toggle="modal" data-target="#exampleModalCenter">
+												<button type="button" class="del add-to-cart-btn" data-id="${a.identifiant}" data-nom="${a.nom}" data-role="admin" data-toggle="modal" data-target="#exampleModalCenter">
 													<i class="fa fa-trash"></i><!-- a href="javascript:confirmation('${pl.idPL}')"></a-->
 												</button>
 											</td>
@@ -280,7 +369,7 @@
 												<button class="add-to-cart-btn" >
 													<i class="fa fa-edit"></i>
 												</button>
-												<button type="button" class="del add-to-cart-btn" data-id="${c.identifiant}" data-libelle="${c.nom}" data-toggle="modal" data-target="#exampleModalCenter">
+												<button type="button" class="del add-to-cart-btn" data-id="${c.identifiant}" data-nom="${c.nom}" data-role="client" data-toggle="modal" data-target="#exampleModalCenter">
 													<i class="fa fa-trash"></i><!-- a href="javascript:confirmation('${pl.idPL}')"></a-->
 												</button>
 											</td>
@@ -299,7 +388,11 @@
 			
 			
 		</div>
-
+        
+        <footer class="main-footer">
+    
+    <strong>Copyright &copy; 2018-2019   Easy Rent.</strong> Tous droits réservés 
+  </footer>
 
 		<!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
@@ -308,23 +401,23 @@
 	<!-- ./wrapper -->
 
 	<!-- jQuery 3 -->
-	<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
 	<!-- Bootstrap 3.3.7 -->
-	<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- DataTables -->
 	<script
-		src="./bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+		src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 	<script
-		src="./bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+		src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 	<!-- SlimScroll -->
 	<script
-		src="./bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+		src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
-	<script src="./bower_components/fastclick/lib/fastclick.js"></script>
+	<script src="bower_components/fastclick/lib/fastclick.js"></script>
 	<!-- AdminLTE App -->
-	<script src="./dist/js/adminlte.min.js"></script>
+	<script src="dist/js/adminlte.min.js"></script>
 	<!-- AdminLTE for demo purposes -->
-	<script src="./dist/js/demo.js"></script>
+	<script src="dist/js/demo.js"></script>
 	<!-- page script -->
 	<script>
 		$(function() {
@@ -332,7 +425,130 @@
 			$('#example2').DataTable()
 			$('#example3').DataTable()
 			
-		})
+		});
 	</script>
 </body>
+<style>
+#resultatRech {
+    
+    position:absolute;
+    z-index:1;
+}
+</style>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLongTitle">Confirmation de suppression</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 > La suppression de l'utilisateur est irréversible</h5>
+        <h5 > Etes vous sure de bien vouloir supprimer cet utilisateur ?</h5>
+        <h5></h5>
+        <p id="nomUser"><p>
+        <p hidden id="idUser"><p>
+        <p hidden id="roleUser"><p>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="confirmation btn btn-danger">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal editable -->
+<div class="modal fade" id="ajouterEmployé" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ajouter un employé</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" action="Admin" method="post">
+                    
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label" >Nom</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName" name="nom" placeholder="Nom" required="true">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputName" class="col-sm-2 control-label" required="true">Prénom</label>
+
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName" name="prenom" placeholder="Prénom" required="true">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" required="true">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputEmail" class="col-sm-2 control-label">Mot de passe</label>
+
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" id="inputEmail" name="password" placeholder="Mot de passe" required="true">
+                    </div>
+                  </div>
+                  
+                  
+                  <div class="form-group">
+                    <label for="inputExperience" class="col-sm-2 control-label">Adresse</label>
+
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" name="adresse" placeholder="Adresse" required="true"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSkills" class="col-sm-2 control-label">Téléphone</label>
+
+                    <div class="col-sm-10">
+                      <input type="number" class="form-control" id="inputSkills" name="telephone" placeholder="Numéro de téléphone" required="true">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSkills" class="col-sm-2 control-label">Point de location</label>
+
+                    <div class="col-sm-10">
+                         
+  						<span id="optionPl"></span>
+					     		  	                 
+                    </div>
+                  </div>
+                  
+                  <hr>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label" for="exampleInputFile">Photo de profile</label>
+                      <div class="col-sm-10">
+                       <input class="" type="file" name="photo" id="exampleInputFile">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <input type="submit" class="btn btn-primary" name="action" value="Ajouter">
+                    </div>
+                  </div>
+                </form>
+      </div>
+     </div>
+  </div>
+</div>
 </html>
+
+
+
+
+
