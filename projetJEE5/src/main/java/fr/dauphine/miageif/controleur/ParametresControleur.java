@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.dauphine.miageif.dao.ParametresDao;
-import fr.dauphine.miageif.dao.PointLocationDao;
 
 public class ParametresControleur extends HttpServlet {
 	ParametresDao metier;
