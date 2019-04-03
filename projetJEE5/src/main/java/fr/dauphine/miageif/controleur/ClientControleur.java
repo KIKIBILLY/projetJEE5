@@ -12,12 +12,15 @@ import javax.servlet.http.HttpSession;
 
 import fr.dauphine.miageif.bean.Client;
 import fr.dauphine.miageif.bean.Employe;
+import fr.dauphine.miageif.bean.FicheProduit;
 import fr.dauphine.miageif.bean.Location;
+import fr.dauphine.miageif.bean.Objet;
 import fr.dauphine.miageif.bean.Reservation;
 import fr.dauphine.miageif.bean.Utilisateur;
 import fr.dauphine.miageif.dao.ClientDao;
 import fr.dauphine.miageif.dao.EmployeeDao;
 import fr.dauphine.miageif.dao.LocationDao;
+import fr.dauphine.miageif.dao.ObjetDao;
 import fr.dauphine.miageif.dao.ReservationDao;
 
 /**
@@ -35,6 +38,7 @@ public class ClientControleur extends HttpServlet {
 	EmployeeDao employeDao;
 	ReservationDao reservationDao;
 	LocationDao locationDao;
+	ObjetDao objetDao;
 	Utilisateur utilisateur;
 
 	/**
@@ -56,7 +60,8 @@ public class ClientControleur extends HttpServlet {
 		clientListeDao = new ClientDao();
 		employeDao = new EmployeeDao();
 		locationDao = new LocationDao();
-
+		
+		
 		Client client = new Client();
 		Employe employe = new Employe();
 		List<Reservation> reservations = new ArrayList<Reservation>();
@@ -74,7 +79,27 @@ public class ClientControleur extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+			}else if(action.equals("Editer")) {
+			 
+			 
+			    Objet objM = new Objet();
+				FicheProduit fpM = new FicheProduit();
+				
+				objM.setIdentifiant(request.getParameter("identifiantM"));
+				
+				
+				
+				fpM.setLibelle(request.getParameter("libelleM"));
+				fpM.setDescription(request.getParameter("descM"));
+				
+				fpM.setadj(Double.valueOf(request.getParameter("amendeM")));
+				fpM.setpxlj(Double.valueOf(request.getParameter("prixM")));
+				fpM.setcl(Double.valueOf(request.getParameter("cautionM")));
+				fpM.setDefauts(request.getParameter("defautM"));
+				objM.setFp(fpM);
+				
+				objetDao.updateObjet(objM);
+		 }
 
 		}
 
@@ -104,17 +129,45 @@ public class ClientControleur extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+ 
+		String action = request.getParameter("action");
 		String[] valeurs = new String[0];
 		valeurs = request.getParameterValues("check");
 		reservationDao = new ReservationDao();
 		locationDao = new LocationDao();
+		objetDao = new ObjetDao();
 
 		if (valeurs != null) {
 			for (int i = 0; i < valeurs.length; i++) {
 				locationDao.addLocation(valeurs[i]);
 			}
 		}
+		
+		
+		if (action != null) {
+		   
+		   if(action.equals("Editer")) {
+			 
+			    Objet objM = new Objet();
+				FicheProduit fpM = new FicheProduit();
+				
+				objM.setIdentifiant(request.getParameter("identifiantM"));
+				
+				
+				
+				fpM.setLibelle(request.getParameter("libelleM"));
+				fpM.setDescription(request.getParameter("descM"));
+				
+				fpM.setadj(Double.valueOf(request.getParameter("amendeM")));
+				fpM.setpxlj(Double.valueOf(request.getParameter("prixM")));
+				fpM.setcl(Double.valueOf(request.getParameter("cautionM")));
+				fpM.setDefauts(request.getParameter("defautM"));
+				objM.setFp(fpM);
+				
+				objetDao.updateObjet(objM);
+		 }
+		}
+
 		response.sendRedirect("ClientControleur?identifiant=" + this.identifiant);
 
 	}

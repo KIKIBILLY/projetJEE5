@@ -21,7 +21,7 @@ public class ProfileClientControleur extends HttpServlet {
     
 	ClientDao cdao ;
 	String email;
-	String test ="mehdi.brahimi@dauphine.eu";
+	String test ;
 	@Override
 	public void init() throws ServletException {
 		
@@ -44,6 +44,7 @@ public class ProfileClientControleur extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
+		test =(String) session.getAttribute("email");
 		Client clientActuel = new Client();
         String action = request.getParameter("action");
 		

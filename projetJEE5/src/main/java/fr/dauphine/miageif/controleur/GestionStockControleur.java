@@ -22,6 +22,7 @@ import fr.dauphine.miageif.util.GenerateurID;
 public class GestionStockControleur extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ObjetDao objet;
+	String test;
 	
 	@Override
 		public void init() throws ServletException {
@@ -32,11 +33,9 @@ public class GestionStockControleur extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		
-		
+		test =(String) session.getAttribute("email");
 		String email = (String) getServletContext().getAttribute ("email");
 		
-		String test ="bilal.rezkellah@dauphine.eu";
 		
 		request.setAttribute("reserves", objet.getListObjetPl(test, EtatObjet.reserve) );
 	    request.setAttribute("loues", objet.getListObjetPl(test, EtatObjet.loue));
@@ -50,7 +49,6 @@ public class GestionStockControleur extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String action = request.getParameter("action");
-		String test ="bilal.rezkellah@dauphine.eu";
 		
 		if(action!=null) {
 		if (action.equals("Enregistrer") ) {
@@ -79,7 +77,6 @@ public class GestionStockControleur extends HttpServlet {
 			
 		 } else if(action.equals("Editer")) {
 			 
-			    System.out.println("Je suis lààààààà");
 			 
 			    Objet objM = new Objet();
 				FicheProduit fpM = new FicheProduit();

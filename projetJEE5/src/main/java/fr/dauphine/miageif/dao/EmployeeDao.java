@@ -107,7 +107,7 @@ public void addEmploye(Employe employe) throws IOException {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String query = "Select * from utilisateur JOIN employe on utilisateur.identifiant= employe.identifiant_utilisateur WHERE (utilisateur.email="+email+")";
+		String query = "Select * from utilisateur JOIN employe on utilisateur.identifiant = employe.identifiant_utilisateur WHERE (utilisateur.email='"+email+"')";
 		try {
 			
 			ResultSet rs = db.executeQuery(query);
@@ -122,6 +122,7 @@ public void addEmploye(Employe employe) throws IOException {
 				String prenom = rs.getString(5);
 				String numtel = rs.getString(6);
 				String adresse = rs.getString(7);
+				String urlPhoto = rs.getString(8);
 				PointLocation pl = pls.getPLById(String.valueOf(rs.getInt(10)));
 				System.out.println();
 				emp.setIdentifiant(identifiant);
@@ -130,6 +131,7 @@ public void addEmploye(Employe employe) throws IOException {
 				emp.setCredential(credential);				
 				emp.setNom(nom);
 				emp.setPrenom(prenom);
+				emp.setUrlPhoto(urlPhoto);
 				emp.setNumeroTel(numtel);
 				emp.setAdresseHabitation(adresse);
 				emp.setPl(pl);

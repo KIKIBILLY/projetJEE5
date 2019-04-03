@@ -22,7 +22,7 @@ import fr.dauphine.miageif.util.GenerateurID;
 
 public class ReservationDao {
 
-	public void addReservation(String idObjet, String idClient, int dureReservation) throws IOException {
+	public String addReservation(String idObjet, String idClient, int dureReservation) throws IOException {
 		MysqlDB db = new MysqlDB();
 		Configuration conf = new Configuration();
 		try {
@@ -41,8 +41,9 @@ public class ReservationDao {
 		cal.add(Calendar.DAY_OF_MONTH, pDao.getParametres().getNDMR());
 		// Date after adding the days to the current date
 		String newDate = sdf.format(cal.getTime());
-		String query = "INSERT INTO `reservation`(`id_reservation`, `id_client`, `id_objet`, `date_reservation`, `date_limite_reservation`, "
-				+ "`nombre_jour_reservation`) VALUES ('" + GenerateurID.generate(12) + "'," + Integer.parseInt(idClient)
+		String id_reservation = GenerateurID.generate(12);
+		String query = "INSERT INTO reservation (id_reservation, id_client, id_objet, date_reservation, date_limite_reservation, "
+				+ "nombre_jour_reservation) VALUES ('" + id_reservation + "'," + Integer.parseInt(idClient)
 				+ ",'" + idObjet + "','" + currentDate + "','" + newDate + "'," + dureReservation + ")";
 		try {
 			db.executeQuery(query);
@@ -51,8 +52,9 @@ public class ReservationDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return id_reservation;
 	}
-
+	
 	public List<Reservation> getReservationByClientId(String idClient) throws IOException {
 
 		MysqlDB db = new MysqlDB();
@@ -63,7 +65,7 @@ public class ReservationDao {
 			e.printStackTrace();
 		}
 		Reservation reservation = new Reservation();
-		String query = "select * from reservation where id_client =" + Integer.parseInt(idClient) +"AND  reservation.id_reservation not in (select id_reservation from location)";
+		String query = "select * from reservation where id_client =" + Integer.parseInt(idClient) +" AND  reservation.id_reservation not in (select id_reservation from location)";
 		ObjetDao objetDao = new ObjetDao();
 		List<Reservation> reservations = new ArrayList<Reservation>();
 		ResultSet rs;
@@ -103,7 +105,7 @@ public class ReservationDao {
 				+ "NATURAL JOIN objet  "
 				+ "JOIN employe on objet.id_stock= employe.identifiant_pl)  "
 				+ "WHERE (reservation.id_client = "+idClient+") AND (employe.identifiant="+idEmploye+")"
-				+"AND  (reservation.id_reservation "
+				+" AND  (reservation.id_reservation "
 				+ "NOT in (select id_reservation from location))";
 		ObjetDao objetDao = new ObjetDao();
 		List<Reservation> reservations = new ArrayList<Reservation>();
@@ -198,6 +200,58 @@ public class ReservationDao {
 		db.close();
 		return reservation;
 	}
+	
+	public Reservation getReservationById(String idReservation) throws IOException {
+
+		MysqlDB db = new MysqlDB();
+		Configuration conf = new Configuration();
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Reservation reservation = new Reservation();
+		String query = "select * from reservation where id_reservation ='" + idReservation +"'";
+		ObjetDao objetDao = new ObjetDao();
+		ResultSet rs;
+		try {
+			rs = db.executeQuery(query);
+				rs.next();
+				reservation = new Reservation();
+				reservation.setIdReservation(rs.getString(1));
+				reservation.setObjet(objetDao.getObjetById(rs.getString(3)));
+				reservation.setDateReservation(rs.getString(4));
+				reservation.setDateLimitReservation(rs.getString(5));
+				reservation.setNbrJourReservation(rs.getInt(6));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+		return reservation;
+	}
+	
+	public boolean updateReservation(String id,int nbJour) {
+		MysqlDB db = new MysqlDB();
+		Configuration conf = new Configuration();
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String query = "UPDATE reservation SET nombre_jour_reservation = " +  nbJour + " WHERE id_reservation = '" +
+						id + "'";
+		try {
+			db.executeQuery(query);
+			return true;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	
 	public boolean deleteReservation(String id) {
 		MysqlDB db = new MysqlDB();

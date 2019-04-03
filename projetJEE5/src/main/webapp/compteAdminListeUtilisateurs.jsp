@@ -29,6 +29,27 @@
        folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="./dist/css/skins/_all-skins.min.css">
 
+  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="css/slick.css"/>
+    <link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="css/style2.css"/>
 
 <!-- Google Font -->
 <link rel="stylesheet"
@@ -94,11 +115,10 @@ $(document).ready(function(){
 
 
 </script>
-</head>
 <body class="hold-transition skin-blue sidebar-mini">
-	<div class="wrapper">
+<div class="wrapper">
 
-		<header class="main-header">
+  <header class="main-header">
 			<!-- Logo -->
 			<a class="logo"> <span class="logo-lg"><b>Easy Rent</b></span>
 			</a>
@@ -114,30 +134,36 @@ $(document).ready(function(){
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
 
-						<!-- User Account: style can be found in dropdown.less -->
+						<!-- variable de session -->
 						<li class="dropdown user user-menu"><a href="#"
-							class="dropdown-toggle" data-toggle="dropdown"> <img
-								src="./dist/img/user2-160x160.jpg" class="user-image"
-								alt="User Image"> <span class="hidden-xs">Arezki
-									BOURIHANE</span>
+							class="dropdown-toggle" data-toggle="dropdown"> <c:if
+									test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+									<img src="${ sessionScope.photo }" class="user-image"
+										alt="User Image">
+									<span class="hidden-xs">${ sessionScope.nom } ${ sessionScope.prenom }
+									</span>
+								</c:if>
 						</a>
 							<ul class="dropdown-menu">
 								<!-- User image -->
-								<li class="user-header"><img
-									src="./dist/img/user2-160x160.jpg" class="img-circle"
-									alt="User Image">
+								<li class="user-header"><c:if
+										test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
 
-									<p>Arezki -Administrateur-</li>
+										<img src="${ sessionScope.photo }" class="img-circle"
+											alt="User Image">
+										<p>${ sessionScope.nom } ${ sessionScope.prenom }
+										<p>
+									</c:if></li>
 								<!-- Menu Body -->
 
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="#" class="btn btn-default btn-flat">Profil</a>
+										<a href="ProfileAdmin" class="btn btn-default btn-flat">Profil</a>
 									</div>
 									<div class="pull-right">
-										<a href="#" class="btn btn-default btn-flat">Se
-											déconnecter</a>
+										<a href="login.jsp" class="btn  btn-default btn-flat">Se
+											deconnecter</a>
 									</div>
 								</li>
 							</ul></li>
@@ -147,36 +173,41 @@ $(document).ready(function(){
 				</div>
 			</nav>
 		</header>
-		<!-- Left side column. contains the logo and sidebar -->
-		<aside class="main-sidebar">
-			<!-- sidebar: style can be found in sidebar.less -->
-			<section class="sidebar">
-				<!-- Sidebar user panel -->
-				<div class="user-panel">
-					<div class="pull-left image">
-						<img src="./dist/img/user2-160x160.jpg" class="img-circle"
-							alt="User Image">
-					</div>
-					<div class="pull-left info">
-						<p>Alexander Pierce</p>
-						<a href="#"><i class="fa fa-circle text-success"></i> En ligne</a>
-					</div>
+		
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+					<c:if
+						test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+						<div class="pull-left image">
+							<img src="${ sessionScope.photo }" class="img-circle"
+								alt="User Image">
+						</div>
+						<div class="pull-left info">
+
+
+							<p>${ sessionScope.nom }  ${ sessionScope.prenom }</p>
+							
+
+						</div>
+					</c:if>
+
 				</div>
+      
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MENU</li>
 
-
-				<ul class="sidebar-menu" data-widget="tree">
-					<li class="header">MENU</li>
-
-
-
-
-					
-					<li class="active"><a> <i class="fa fa-circle-o"></i> <span>Gestion
+        
+					<li class="active"><a href="Admin"> <i class="fa fa-circle-o"></i> <span>Gestion
 								des utilisateurs</span>
 
 					</a></li>
 
-					<li  ><a href="ListePl"> <i class="fa fa-circle-o"></i>
+					<li ><a href="ListePl"> <i class="fa fa-circle-o"></i>
 							<span>Gestion des Points de location</span>
 
 					</a></li>
@@ -189,12 +220,12 @@ $(document).ready(function(){
 							<span>Gestion du compte</span>
 
 					</a></li>
+					
 
-				</ul>
-
-			</section>
-			<!-- /.sidebar -->
-		</aside>
+ </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">

@@ -59,84 +59,100 @@ function confirmation(id) {
 }
 </script>
 </head>
+</head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
-    <!-- Logo -->
-    <a href="../../index2.html" class="logo">
-      <span class="logo-lg"><b>Easy Rent</b></span>
-    </a>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
+			<!-- Logo -->
+			<a class="logo"> <span class="logo-lg"><b>Easy Rent</b></span>
+			</a>
+			<!-- Header Navbar: style can be found in header.less -->
+			<nav class="navbar navbar-static-top">
+				<!-- Sidebar toggle button-->
+				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
+					role="button"> <span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+				</a>
 
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>
-                  Alexander Pierce - Web Developer
-                  <small>Admin</small>
-                </p>
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="ProfileEmploye" class="btn btn-default btn-flat">Profil</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Se déconnecter</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          
-        </ul>
-      </div>
-    </nav>
-  </header>
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+
+						<!-- variable de session -->
+						<li class="dropdown user user-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <c:if
+									test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+									<img src="${ sessionScope.photo }" class="user-image"
+										alt="User Image">
+									<span class="hidden-xs">${ sessionScope.nom } ${ sessionScope.prenom }
+									</span>
+								</c:if>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- User image -->
+								<li class="user-header"><c:if
+										test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+
+										<img src="${ sessionScope.photo }" class="img-circle"
+											alt="User Image">
+										<p>${ sessionScope.nom } ${ sessionScope.prenom }
+										<p>
+									</c:if></li>
+								<!-- Menu Body -->
+
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="ProfileAdmin" class="btn btn-default btn-flat">Profil</a>
+									</div>
+									<div class="pull-right">
+										<a href="login.jsp" class="btn  btn-default btn-flat">Se
+											deconnecter</a>
+									</div>
+								</li>
+							</ul></li>
+						<!-- Control Sidebar Toggle Button -->
+
+					</ul>
+				</div>
+			</nav>
+		</header>
+		
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
       <div class="user-panel">
-        <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-          
-        </div>
-        <div class="pull-left info">
-          <p>Alexander Pierce</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-        </div>
-      </div>
+					<c:if
+						test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+						<div class="pull-left image">
+							<img src="${ sessionScope.photo }" class="img-circle"
+								alt="User Image">
+						</div>
+						<div class="pull-left info">
+
+
+							<p>${ sessionScope.nom }  ${ sessionScope.prenom }</p>
+							
+
+						</div>
+					</c:if>
+
+				</div>
       
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
 
-      				 <li ><a href="Admin"> <i class="fa fa-circle-o"></i> <span>Gestion
+        
+					<li ><a href="Admin"> <i class="fa fa-circle-o"></i> <span>Gestion
 								des utilisateurs</span>
 
 					</a></li>
 
-					<li  ><a href="ListePl"> <i class="fa fa-circle-o"></i>
+					<li ><a href="ListePl"> <i class="fa fa-circle-o"></i>
 							<span>Gestion des Points de location</span>
 
 					</a></li>
@@ -145,15 +161,16 @@ function confirmation(id) {
 							<span>Gestion des paramètres</span>
 
 					</a></li>
-					<li class="active"><a href=""> <i class="fa fa-circle-o"></i>
+					<li class="active"><a href="ProfileAdmin"> <i class="fa fa-circle-o"></i>
 							<span>Gestion du compte</span>
 
 					</a></li>
-      </ul>
+					
+
+</ul>
     </section>
     <!-- /.sidebar -->
   </aside>
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     
@@ -180,8 +197,8 @@ function confirmation(id) {
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Email</b> <a class="pull-right">${admin.credential.email}</a>
-                </li>
+                 <a class="pull-right">${admin.credential.email}</a>
+                </li> <br>
                 <li class="list-group-item">
                   <b>Téléphone</b> <a class="pull-right">${admin.numeroTel}</a>
                 </li>
@@ -308,29 +325,23 @@ $(document).ready(function() {
 $('.mdb-select').materialSelect();
 });
 </script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- DataTables -->
-<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- DataTables -->
+	<script
+		src="./bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+	<script
+		src="./bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+	<!-- SlimScroll -->
+	<script
+		src="./bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<!-- FastClick -->
+	<script src="./bower_components/fastclick/lib/fastclick.js"></script>
+	<!-- AdminLTE App -->
+	<script src="./dist/js/adminlte.min.js"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="./dist/js/demo.js"></script>
 <!-- page script -->
 <script>
   $(function () {

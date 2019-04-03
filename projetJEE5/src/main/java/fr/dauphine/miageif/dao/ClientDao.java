@@ -67,6 +67,52 @@ public class ClientDao {
 	}
 	
 	
+	public Client getClientByUserId (String id) throws IOException  {
+		Client client = new Client();
+		try {
+			db.open(conf.dbHost, conf.dbPort, conf.dbName, conf.dbAdminLogin, conf.dbAdminPwd);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String query = "Select * from utilisateur JOIN client on utilisateur.identifiant= client.identifiant_utilisateur WHERE (utilisateur.identifiant= "+ id+")";
+		try {
+			
+			ResultSet rs = db.executeQuery(query);
+			
+			Credentials credential = null;
+			while (rs.next()) {
+				credential = new Credentials();
+				
+				String identifiant = String.valueOf(rs.getInt(9));
+				String email = rs.getString(2);
+				String password = rs.getString(3);
+				String nom = rs.getString(4);
+				String prenom = rs.getString(5);
+				String numtel = rs.getString(6);
+				String adresse = rs.getString(7);
+				String urlphoto= rs.getString(8);
+				
+				
+				client.setIdentifiant(identifiant);
+				credential.setEmail(email);
+				credential.setPassword(password);
+				client.setCredential(credential);				
+				client.setNom(nom);
+				client.setPrenom(prenom);
+				client.setNumeroTel(numtel);
+				client.setAdresseHabitation(adresse);
+				client.setUrlPhoto(urlphoto);
+			
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		db.close();
+		return client;
+	}
+	
 	
 	public List<Client> getAllListClient() throws IOException {
 		List<Client> clients = new ArrayList<Client>();

@@ -41,6 +41,21 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
  
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="css/slick.css"/>
+    <link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="css/style2.css"/>
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -89,7 +104,7 @@
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="#" class="btn btn-default btn-flat">Profil</a>
+										<a href="ProfileEmploye" class="btn btn-default btn-flat">Profil</a>
 									</div>
 									<div class="pull-right">
 										<a href="login.jsp" class="btn  btn-default btn-flat">Se
@@ -130,9 +145,9 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
 
-        <li class="active"><a href="profile.html"><i class="fa fa-circle-o"></i>Gestion des clients</a></li>
-        <li><a href="login.html"><i class="fa fa-circle-o"></i> Gestion du stock</a></li>
-        <li><a href="register.html"><i class="fa fa-circle-o"></i> Gestion du compte</a></li>
+        <li class="active"><a ><i class="fa fa-circle-o"></i>Gestion des clients</a></li>
+        <li><a href="GestionStock"><i class="fa fa-circle-o"></i> Gestion du stock</a></li>
+        <li><a href="ProfileEmploye"><i class="fa fa-circle-o"></i> Gestion du compte</a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -253,8 +268,8 @@
                   <td><c:out value="${ reservation.dateReservation}" /></td>
                   <td><c:out value="${ reservation.dateLimitReservation}" />
                    <td>
-                  <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-share"></i></button>
-                   <button type="button" data-id="${reservation.idReservation}" data-libelle="${reservation.objet.fp.libelle}" class="del add-to-cart-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash"></i></button>
+                  <button type="button" class="editer add-to-cart-btn" data-id="${reservation.objet.identifiant}" data-libelle="${reservation.objet.fp.libelle}" data-amende="${reservation.objet.fp.adj}" data-prix="${reservation.objet.fp.pxlj}" data-caution="${reservation.objet.fp.cl}" data-desc="${reservation.objet.fp.description}"  data-defaut="${reservation.objet.fp.defauts}" data-img1="${reservation.objet.images[0]}" data-img2="${reservation.objet.images[1]}"  data-toggle="modal" data-target="#editerFicheProduit"> <i class="fa fa-edit"></i>  </button>
+                  <button type="button" data-id="${reservation.idReservation}" data-libelle="${reservation.objet.fp.libelle}" class="del add-to-cart-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-trash"></i></button>
                   
                   </td>
                 </tr>
@@ -296,7 +311,7 @@
                   <th>Id Location</th>
                   <th>Id Reservation</th>
                   <th>Date de location</th>
-                  <th>Date limite de location</th>
+                  <th>Date de restitution</th>
                   <th>Action</th>
                 </tr>
                 </thead>
@@ -382,64 +397,7 @@
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edition de la fiche produit</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-       <div >
-              <img src="https://dyw7ncnq1en5l.cloudfront.net/news/46/46551/tesla-model-s-web.jpg" height="200" width="550" >
-      </div> 
-      <hr>
-      <form>
 
-      
-    
-    
-  <div class="form-row">
-  <div class="form-group col-md-6">
-      <label for="inputEmail4">Identifiant</label>
-      <input type="email" class="form-control" id="inputEmail4" placeholder="" disabled="true">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Désignation</label>
-      <input type="email" class="form-control" id="inputEmail4" placeholder="Libellé court" >
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Amende</label>
-      <input type="password" class="form-control" id="inputPassword4" placeholder="Amende de dépassement">
-    </div>
-  </div>
-  <div class="">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Prix/jr</label>
-      <input type="email" class="form-control" id="inputEmail4" placeholder="Prix de location par jour" >
-    </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Caution</label>
-      <input type="password" class="form-control" id="inputPassword4" placeholder="Caution de garantie">
-    </div>
-  </div>
-  <br>
-  <div class="form-group" >
-    
-    <textarea class="form-control" rows="3" placeholder="Description et défauts"></textarea>
-  </div>
-  
-  <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-  <button type="submit" class="btn btn-primary">Sauvegarder</button>
-</form>
-</div>
-      
-    </div>
-  </div>
-</div>
 
 
 
@@ -473,7 +431,22 @@ $(document).on("click", ".confirmation", function () {
     document.location="ClientControleur?action=Supprimer&idReservation="+idReservation+"&identifiant="+ ${client.identifiant };
 });
 
+</script>
+<script type="text/javascript">
+$(document).on("click", ".editer", function () {
+     $("#identifiant").val($(this).data('id'));
+     $("#identifiantM").val($(this).data('id'));
+     $("#libelle").val($(this).data('libelle'));
+     $("#prix").val($(this).data('prix'));
+     $("#caution").val($(this).data('caution'));
+     $("#amende").val($(this).data('amende'));
+     $("#desc").text($(this).data('desc'));
+     $("#defaut").text($(this).data('defaut'));
 
+     $("#img1").attr("src", $(this).data('img1'));
+     $("#img2").attr("src", $(this).data('img2'));
+     
+});
 </script>
 <!-- page script -->
 <script>
@@ -487,3 +460,93 @@ $(document).on("click", ".confirmation", function () {
 
 </body>
 </html>
+
+<style>
+.modal.and.carousel {
+  position: fixed; // Needed because the carousel overrides the position property
+}
+#resultatRech {
+    
+    position:absolute;
+    z-index:1;
+}
+.img-responsive .centree {
+ margin: 0 auto;
+}
+</style>
+
+<div class="modal fade and carousel slide" id="editerFicheProduit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editer la Fiche produit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="box">
+          <ol class="carousel-indicators">
+            <li data-target="#editerFicheProduit" data-slide-to="0" class="active"></li>
+            <li data-target="#editerFicheProduit" data-slide-to="1"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="item active">
+              <img id="img1" src="" alt="First slide"  class="img-responsive center-block" height="100" width="150">
+            </div>
+            <div class="item">
+              <img id="img2" src="" alt="Second slide" class="img-responsive center-block" height="100" width="150">
+            </div>
+          </div><!-- /.carousel-inner -->
+          <a class="left carousel-control" href="#editerFicheProduit" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#editerFicheProduit" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </div> 
+       <form action="ClientControleur" method="post">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">Identifiant</label>
+            <input type="text" class="form-control" id="identifiant" placeholder="" disabled="true">
+            <input hidden type="text" id="identifiantM" name="identifiantM" >
+           
+          </div>
+        <div class="form-group col-md-6">
+           <label for="inputEmail4">Désignation</label>
+           <input type="text" class="form-control" id="libelle" name="libelleM" placeholder="Libellé court">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">Amende</label>
+          <input type="number" min="0" step="0.01" class="form-control" id="amende" name="amendeM" placeholder="Amende de dépassement">
+        </div>
+        </div>
+
+        <div class="">
+          <div class="form-group col-md-6">
+          <label for="inputEmail4">Prix/jr</label>
+          <input type="number" min="0" step="0.01" class="form-control" id="prix" name="prixM" placeholder="Prix de location par jour">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">Caution</label>
+          <input type="number" min="0" step="0.01" class="form-control" id="caution" name="cautionM" placeholder="Caution de garantie">
+        </div>
+      </div>
+      
+      <div class="form-group" >
+         <textarea class="form-control" rows="3" id="desc" name="descM" placeholder="Description"></textarea>
+      </div> 
+      <div class="form-group" >
+         <textarea class="form-control" rows="3" id="defaut" name="defautM" placeholder="Défauts"></textarea>
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <input type="submit" class="btn btn-primary" name="action" value="Editer">
+      </div> 
+      </form>
+    </div>
+    </div>
+  </div>
+</div>

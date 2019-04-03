@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import fr.dauphine.miageif.bean.Profile;
 import fr.dauphine.miageif.bean.Utilisateur;
+import fr.dauphine.miageif.dao.ClientDao;
 import fr.dauphine.miageif.dao.LoginDao;
 
 /**
@@ -47,7 +48,7 @@ public class LoginControleur extends HttpServlet {
 	  Utilisateur utilisateur=null;
 	  LoginDao logindao = new LoginDao();
 	  utilisateur = logindao.login(email, password);
-     
+	  ClientDao clientDao = new ClientDao();
    
    if(utilisateur!= null) {
     request.setAttribute("email", email);
@@ -56,6 +57,7 @@ public class LoginControleur extends HttpServlet {
     session.setAttribute("nom", utilisateur.getNom());
     session.setAttribute("prenom", utilisateur.getPrenom());
     session.setAttribute("photo", utilisateur.getUrlPhoto());
+    session.setAttribute("email", utilisateur.getCredential().getEmail());
     Profile profil= logindao.getProfile(utilisateur);
     
     if (profil==Profile.employe) {
@@ -63,6 +65,8 @@ public class LoginControleur extends HttpServlet {
         response.sendRedirect("ListeClient");
     	
     }else if(profil==Profile.client){
+    	session.setAttribute("id_client",clientDao.getClientByUserId(utilisateur.getIdentifiant()).getIdentifiant());
+        request.setAttribute("id_client",clientDao.getClientByUserId(utilisateur.getIdentifiant()).getIdentifiant());
         session.setAttribute("profil", profil);
     	response.sendRedirect("magasin");
         

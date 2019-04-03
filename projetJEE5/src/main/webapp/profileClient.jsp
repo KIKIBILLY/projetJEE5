@@ -51,59 +51,56 @@ $(document).on("click", ".confirmation", function () {
 });
 
 </script>
-</head>
-<body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+<header class="main-header">
+			<!-- Logo -->
+			<a class="logo"> <span class="logo-lg"><b>Easy Rent</b></span>
+			</a>
+			<!-- Header Navbar: style can be found in header.less -->
+			
+				
 
-  <header class="main-header">
-    <!-- Logo -->
-    <a href="../../index2.html" class="logo">
-      <span class="logo-lg"><b>Easy Rent</b></span>
-    </a>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
 
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Alexander Pierce</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                <p>
-                  Alexander Pierce - Web Developer
-                  <small>Client</small>
-                </p>
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="ProfileEmploye" class="btn btn-default btn-flat">Profil</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Se déconnecter</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-          
-        </ul>
-      </div>
-    </nav>
-  </header>
+						<!-- variable de session -->
+						<li class="dropdown user user-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <c:if
+									test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+									<img src="${ sessionScope.photo }" class="user-image"
+										alt="User Image">
+									<span class="hidden-xs">${ sessionScope.nom } ${ sessionScope.prenom }
+									</span>
+								</c:if>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- User image -->
+								<li class="user-header"><c:if
+										test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
+
+										<img src="${ sessionScope.photo }" class="img-circle"
+											alt="User Image">
+										<p>${ sessionScope.nom } ${ sessionScope.prenom }
+										<p>
+									</c:if></li>
+								<!-- Menu Body -->
+
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-left">
+										<a href="ProfileClient" class="btn btn-default btn-flat">Profil</a>
+									</div>
+									<div class="pull-right">
+										<a href="login.jsp" class="btn  btn-default btn-flat">Se
+											deconnecter</a>
+									</div>
+								</li>
+							</ul></li>
+						<!-- Control Sidebar Toggle Button -->
+
+					</ul>
+				</div>
+			
+		</header>
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -131,8 +128,8 @@ $(document).on("click", ".confirmation", function () {
 
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Email</b> <a class="pull-right">${client.credential.email}</a>
-                </li>
+                   <a class="pull-right">${client.credential.email}</a>
+                </li><br>
                 <li class="list-group-item">
                   <b>Téléphone</b> <a class="pull-right">${client.numeroTel}</a>
                 </li>
@@ -273,29 +270,23 @@ $(document).ready(function() {
 $('.mdb-select').materialSelect();
 });
 </script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- FastClick -->
-<script src="bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- DataTables -->
-<script src="bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<!-- SlimScroll -->
-<script src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- FastClick -->
-<script src="bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
+<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- DataTables -->
+	<script
+		src="./bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+	<script
+		src="./bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+	<!-- SlimScroll -->
+	<script
+		src="./bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<!-- FastClick -->
+	<script src="./bower_components/fastclick/lib/fastclick.js"></script>
+	<!-- AdminLTE App -->
+	<script src="./dist/js/adminlte.min.js"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="./dist/js/demo.js"></script>
 <!-- page script -->
 <script>
   $(function () {

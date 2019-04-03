@@ -43,6 +43,7 @@ public class LocationDao {
 		}
 	}
 
+	
 	public List<Location> getLocationByClientId(String idClient) throws IOException {
 
 		MysqlDB db = new MysqlDB();
@@ -54,14 +55,14 @@ public class LocationDao {
 			e.printStackTrace();
 		}
 		
-		
-		Location location = new Location();
-		String query = "select * from reservation JOIN location on (reservation.id_reservation = location.id_reservation ) where (reservation.id_client =" + idClient+")";
 		List<Location> locations = new ArrayList<Location>();
+		
+		String query = "select * from reservation JOIN location on (reservation.id_reservation = location.id_reservation ) where (reservation.id_client =" + idClient+")";
 		ResultSet rs;
 		try {
 			rs = db.executeQuery(query);
 			while (rs.next()) {
+				Location location = new Location();
 				location.setIdLocation(String.valueOf(rs.getInt(7)));
 				location.setDateLocation(rs.getString(8));
 				location.setReservation(reservationDao.getReservationId(rs.getString(9)));

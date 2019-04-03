@@ -34,11 +34,30 @@
 <!-- Google Font -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="css/slick.css"/>
+    <link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="css/style2.css"/>
+
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-	<div class="wrapper">
+<div class="wrapper">
 
-		<header class="main-header">
+<header class="main-header">
 			<!-- Logo -->
 			<a class="logo"> <span class="logo-lg"><b>Easy Rent</b></span>
 			</a>
@@ -71,7 +90,7 @@
 
 										<img src="${ sessionScope.photo }" class="img-circle"
 											alt="User Image">
-										<p>${ sessionScope.nom }${ sessionScope.prenom }
+										<p>${ sessionScope.nom } ${ sessionScope.prenom }
 										<p>
 									</c:if></li>
 								<!-- Menu Body -->
@@ -79,10 +98,10 @@
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="#" class="btn btn-default btn-flat">Profil</a>
+										<a href="ProfileEmploye" class="btn btn-default btn-flat">Profil</a>
 									</div>
 									<div class="pull-right">
-										<a href="login.jsp" class="btn btn-default btn-flat">Se
+										<a href="login.jsp" class="btn  btn-default btn-flat">Se
 											deconnecter</a>
 									</div>
 								</li>
@@ -93,12 +112,12 @@
 				</div>
 			</nav>
 		</header>
-		<!-- Left side column. contains the logo and sidebar -->
-		<aside class="main-sidebar">
-			<!-- sidebar: style can be found in sidebar.less -->
-			<section class="sidebar">
-				<!-- Sidebar user panel -->
-				<div class="user-panel">
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <<div class="user-panel">
 					<c:if
 						test="${ !empty sessionScope.prenom && !empty sessionScope.nom }">
 						<div class="pull-left image">
@@ -108,41 +127,25 @@
 						<div class="pull-left info">
 
 
-							<p>${ sessionScope.nom }${ sessionScope.prenom }</p>
-
+							<p>${ sessionScope.nom }  ${ sessionScope.prenom }</p>
+							
 
 						</div>
 					</c:if>
 
 				</div>
+      
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MENU</li>
 
-
-				<ul class="sidebar-menu" data-widget="tree">
-					<li class="header">MENU</li>
-
-
-
-
-
-					<li class="active"><a> <i class="fa fa-circle-o"></i> <span>Gestion
-								des clients</span>
-
-					</a></li>
-
-					<li><a href="./stock.html"> <i class="fa fa-circle-o"></i>
-							<span>Gestion du stock</span>
-
-					</a></li>
-
-					<li><a href="./stock.html"> <i class="fa fa-circle-o"></i>
-							<span>Mon compte</span>
-
-					</a></li>
-				</ul>
-
-			</section>
-			<!-- /.sidebar -->
-		</aside>
+        <li class="active"><a ><i class="fa fa-circle-o"></i>Gestion des clients</a></li>
+        <li><a href="GestionStock"><i class="fa fa-circle-o"></i> Gestion du stock</a></li>
+        <li><a href="ProfileEmploye"><i class="fa fa-circle-o"></i> Gestion du compte</a></li>
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">

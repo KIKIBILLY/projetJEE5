@@ -1,6 +1,6 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,21 +40,39 @@
 </head>
 <body>
 	<!-- HEADER -->
-	<header>
-		<!-- TOP HEADER -->
-		<div id="top-header">
+	<div id="top-header">
 			<div class="container">
-				<ul class="header-links pull-right">
-					<li><a href="#"><i class="fa fa-user-o"></i> Mon compte</a></li>
-				</ul>
+				<!-- Cart -->
+				<c:if test="${!empty sessionScope.id_client}">
+					<div class="dropdown">
+						<a style="color: white;" class="dropdown-toggle"
+							data-toggle="dropdown" aria-expanded="true"> <i
+							class="fa fa-user-o"></i> <span>Mon compte</span>
+						</a>
+						<div class="cart-dropdown">
+							<div class="cart-list">
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="${sessionScope.photo}" alt="">
+									</div>
+									<div class="product-body">
+										<h3 class="product-name">
+											<a href="#">${sessionScope.nom}</a>
+										</h3>
+										<h3 class="product-name">
+											<a href="#">${sessionScope.prenom}</a>
+										</h3>
+									</div>
+								</div>
+								<div class="cart-btns">
+									<a href="#">Profil</a> <a href="login">Deconnexion</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:if>
 			</div>
 		</div>
-		<!-- /TOP HEADER -->
-
-		<!-- MAIN HEADER -->
-
-		<!-- /MAIN HEADER -->
-	</header>
 	<!-- /HEADER -->
 
 	<!-- NAVIGATION -->
@@ -146,28 +164,87 @@
 							ADRESSE :
 							<c:out value="${pl.adresse}" />
 						</h5>
+						<c:if test="${empty sessionScope.id_client}">
+								<div class="add-to-cart">
+									<a href="login">
+									<button class="add-to-cart-btn" >
+									<i class="fa fa-shopping-cart"></i>Login
+									</button>
+									</a>
+							<a href="magasin">
+							<button type="submit" style="background-color:black;" class="add-to-cart-btn">
+								<i class="fa fa-undo"></i>Boutique
+							</button>
+							</a>
+								</div>
+						</c:if>
+						<c:if test="${nbReservation < pm.NMOR && !empty sessionScope.id_client}">
+						<c:if test ="${!reserve}">
+						<form action="reservation" method="POST">
+						<input type="hidden" name="id_client" value="${sessionScope.id_client}" />
+						<input type="hidden" name="id_produit" value="${id_produit}" />
 						<div class="add-to-cart">
 							<div class="qty-label">
 								Nombre jours :
 								<div class="input-number">
-									<input id="MyNumber" type="number" min="${pm.NDmL}" max="${pm.NDML}" value="${pm.NDmL}">
+									<input id="MyNumber" name="nbrJour" type="number" min="${pm.NDmL}" max="${pm.NDML}" value="${pm.NDmL}">
 									<span class="qty-up">+</span> <span class="qty-down">-</span>
 								</div>
 							</div>
-							<div style="margin-top:2%">
-							<a href="/magasin">
-							<button class="add-to-cart-btn">
-								<i class="fa fa-shopping-cart"></i>Reserver
-							</button>
-							</a>
+							<div class="input-checkbox">
+								<input type="checkbox" id="shiping-address">
+								<label for="shiping-address">
+									<span></span>
+									Je m'engage a venir recuperer le produit dans le point de location dans <c:out value="${pm.NDMR}"/> jours
+								</label>
+								<div class="caption">
+									<button class="add-to-cart-btn" >
+									<i class="fa fa-shopping-cart"></i>Reserver
+									</button>
+								</div>
+							</div>
+						</div>
+						</form>
+						<div class="add-to-cart" style="margin-top:2%">
 							<a href="magasin">
-							<button style="background-color:black;" class="add-to-cart-btn">
+							<button  style="background-color:black;" class="add-to-cart-btn">
 								<i class="fa fa-undo"></i>Annuler
 							</button>
 							</a>
 							</div>
-						</div>
+						</c:if>
+						<c:if test="${reserve}">
+							<div class="alert alert-success" role="alert">
+  							Reservation realiser avec succee 
+							</div>
+							<div>
+							Vous avez <c:out value="${pm.NDMR}"/> jours pour venir recuperer le produit au point de location
+							</div>
+							<div>
+								Numero Reservation : <c:out value="${numReservation}"/> 
+							</div>
+							<div class="add-to-cart">
+							<a href="magasin">
+							<button type="submit" style="background-color:black;" class="add-to-cart-btn">
+								<i class="fa fa-undo"></i>Boutique
+							</button>
+							</a>
+							</div>
 
+						</c:if>
+						</c:if>	
+						<c:if test="${nbReservation == pm.NMOR }">
+						<div class="alert alert-danger" role="alert">
+  							Vous avez atteint le nombre maximal de reservation ou de location 
+						</div>
+						<div class="add-to-cart">
+						<a href="magasin">
+							<button type="submit" style="background-color:black;" class="add-to-cart-btn">
+								<i class="fa fa-undo"></i>Boutique
+							</button>
+						</a>
+						</div>
+						</c:if>
 					</div>
 				</div>
 				<!-- /Product details -->
@@ -249,6 +326,10 @@
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
+	<script>$('input[type=checkbox]').change(function(){
+	    var count = $('input[type=checkbox]:checked').length;
+	    $('button').prop('disabled', count == 0);
+	});</script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/slick.min.js"></script>

@@ -1,4 +1,6 @@
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ page pageEncoding="UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,12 +25,58 @@
 
 <!-- nouislider -->
 <link type="text/css" rel="stylesheet" href="css/nouislider.min.css" />
+<link rel="stylesheet"
+	href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="./bower_components/font-awesome/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="./bower_components/Ionicons/css/ionicons.min.css">
+<!-- DataTables -->
+<link rel="stylesheet"
+	href="./bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="./dist/css/AdminLTE.min.css">
+<!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet" href="./dist/css/skins/_all-skins.min.css">
+
+
+<!-- Google Font -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
 <!-- Font Awesome Icon -->
 <link rel="stylesheet" href="css/font-awesome.min.css">
 
 <!-- Custom stlylesheet -->
 <link type="text/css" rel="stylesheet" href="css/style2.css" />
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<script>  
+var request=new XMLHttpRequest(); 
+
+function searchInfo(){  
+var name=document.vinform.name.value;  
+var url="rechercheEnStockClient.jsp?val=" + name;
+
+		try {
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+					var val = request.responseText;
+					document.getElementById('mylocation').innerHTML = val;
+				}
+			}//end of function  
+			request.open("GET", url, true);
+			request.send();
+		} catch (e) {
+			alert("Unable to connect to server");
+		}
+	}
+</script>
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,7 +84,6 @@
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
-
 </head>
 <body>
 	<!-- HEADER -->
@@ -44,9 +91,35 @@
 		<!-- TOP HEADER -->
 		<div id="top-header">
 			<div class="container">
-				<ul class="header-links pull-right">
-					<li><a href="#"><i class="fa fa-user-o"></i> Mon compte</a></li>
-				</ul>
+				<!-- Cart -->
+				<c:if test="${!empty sessionScope.id_client}">
+					<div class="dropdown">
+						<a style="color: white;" class="dropdown-toggle"
+							data-toggle="dropdown" aria-expanded="true"> <i
+							class="fa fa-user-o"></i> <span>Mon compte</span>
+						</a>
+						<div class="cart-dropdown">
+							<div class="cart-list">
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="${sessionScope.photo}" alt="">
+									</div>
+									<div class="product-body">
+										<h3 class="product-name">
+											<a href="#">${sessionScope.nom}</a>
+										</h3>
+										<h3 class="product-name">
+											<a href="#">${sessionScope.prenom}</a>
+										</h3>
+									</div>
+								</div>
+								<div class="cart-btns">
+									<a href="ProfileClient">Profil</a> <a href="login">Deconnexion</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:if>
 			</div>
 		</div>
 		<!-- /TOP HEADER -->
@@ -63,104 +136,128 @@
 					<!-- SEARCH BAR -->
 					<div class="col-md-8">
 						<div class="header-search">
-							<form>
-								<select class="input-select">
-									<option value="0">Tout</option>
-									<c:forEach items="${pls}" var="pl">
-										<option value="${pl.idPL}">${pl.libelle}</option>
-									</c:forEach>
-								</select> <input class="input" placeholder="Search here">
-								<button class="search-btn">Rechercher</button>
-							</form>
+
+							<div class="row">
+								<div class="col-md-3">
+									<form action="magasin" method="GET" name="monForm">
+										<input style="width: 120%" type="hidden" name="act" value="rechercheParPL" /> <select
+											class="input-select" id="pointLocation" name="pointLocation"
+											onchange="this.form.submit()">
+											<option value="Pl">Point Location</option>
+											<option value="Tout">Tout</option>
+											<c:forEach items="${pls}" var="pl">
+												<option value="${pl.idPL}">${pl.libelle}</option>
+											</c:forEach>
+										</select>
+									</form>
+								</div>
+								<div class="col-md-8">
+									<form name="vinform">
+
+										<input style="width:100%" type="text" name="name" onkeyup="searchInfo()"
+											class="input" placeholder="libelle, description ...">
+										<div class="" id="resultatRech">
+											<span id="mylocation"></span>
+										</div>
+									</form>
+								</div>
+							</div>
 						</div>
 					</div>
 					<!-- /SEARCH BAR -->
 
 					<!-- ACCOUNT -->
-					<div class="col-md-3 clearfix">
-						<div class="header-ctn">
-							<!-- Wishlist -->
-							<!-- /Wishlist -->
+					<c:if test="${!empty sessionScope.id_client}">
+						<div class="col-md-3 clearfix">
+							<div class="header-ctn">
+								<!-- Wishlist -->
+								<!-- /Wishlist -->
 
-							<!-- Cart -->
-							<div class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown"
-									aria-expanded="true"> <i class="fa fa-shopping-cart"></i> <span>Reservations</span>
-									<div class="qty">${nbReservation}/${pm.NMOR}</div>
-								</a>
-								<div class="cart-dropdown">
-									<div class="cart-list">
-										<c:forEach items="${reservations}" var="reservation">
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="${reservation.objet.images[0]}" alt="">
+								<!-- Cart -->
+								<div class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown"
+										aria-expanded="true"> <i class="fa fa-shopping-cart"></i>
+										<span>Reservations</span>
+										<div class="qty">${nbReservation}/${pm.NMOR}</div>
+									</a>
+									<div class="cart-dropdown">
+										<div class="cart-list">
+											<c:forEach items="${reservations}" var="reservation">
+												<div class="product-widget">
+													<div class="product-img">
+														<img src="${reservation.objet.images[0]}" alt="">
+													</div>
+													<div class="product-body">
+														<h3 class="product-name">
+															<a href="reservation">${reservation.objet.fp.libelle}</a>
+														</h3>
+														<h4 class="product-price">
+															<span class="qty">Date Reservation :
+																${reservation.dateReservation}</span>
+														</h4>
+													</div>
 												</div>
-												<div class="product-body">
-													<h3 class="product-name">
-														<a href="#">${reservation.objet.fp.libelle}</a>
-													</h3>
-													<h4 class="product-price">
-														<span class="qty">Date Reservation :
-															${reservation.dateReservation}</span>
-													</h4>
-												</div>
-												<form action="magasin" method="POST">
-													<button type="submit" value="${reservation.idReservation}"
-														name="id_reservation" class="delete">
-														<i class="fa fa-close"></i>
-													</button>
-												</form>
-											</div>
-										</c:forEach>
-									</div>
-									<div class="cart-summary">
-										<small>Vous avez ${nbReservation}/${pm.NMOR} Reservations</small>
-									</div>
-								</div>
-							</div>
-							<!-- /Cart -->
-							<div class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown"
-									aria-expanded="true"> <i class="fa fa-shopping-basket"></i>
-									<span>Locations</span>
-									<div class="qty">0</div>
-								</a>
-								<div class="cart-dropdown">
-									<div class="cart-list">
-										<div class="product-widget">
-											<div class="product-img">
-												<img src="./img/product01.png" alt="">
-											</div>
-											<div class="product-body">
-												<h3 class="product-name">
-													<a href="#">product name goes here</a>
-												</h3>
-												<h4 class="product-price">
-													<span class="qty">1x</span>$980.00
-												</h4>
-											</div>
-											<button class="delete">
-												<i class="fa fa-close"></i>
-											</button>
+											</c:forEach>
+										</div>
+										<div class="cart-summary">
+											<small>Vous avez ${nbReservation}/${pm.NMOR}
+												Reservations possibles</small>
+
+										</div>
+										<div>
+											<a href="reservation">Acceder aux reservations</a>
 										</div>
 									</div>
+								</div>
+								<!-- /Cart -->
+								<div class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown"
+										aria-expanded="true"> <i class="fa fa-shopping-basket"></i>
+										<span>Locations</span>
+										<div class="qty">${nbLocation}/${pm.NMOL}</div>
+									</a>
+									<div class="cart-dropdown">
+										<div class="cart-list">
+											<c:forEach items="${locations}" var="location">
+												<div class="product-widget">
+													<div class="product-img">
+														<img src="${location.reservation.objet.images[0]}" alt="">
+													</div>
+													<div class="product-body">
+														<h3 class="product-name">
+															<a href="reservation">${location.reservation.objet.fp.libelle}</a>
+														</h3>
+														<h4 class="product-price">
+															<span class="qty">Date Location :
+																${location.dateLocation}</span>
+														</h4>
+														<h4 class="product-price">
+															<span class="qty">Date Restitution :
+																${location.dateLimitLocation}</span>
+														</h4>
+													</div>
+												</div>
+											</c:forEach>
+										</div>
+										<div class="cart-summary">
+											<small>Vous avez ${nbLocation}/${pm.NMOL}
+												Locations possibles</small>
 
-									<div class="cart-btns">
-										<a href="#">View Cart</a> <a href="#">Checkout <i
-											class="fa fa-arrow-circle-right"></i></a>
+										</div>
+										
 									</div>
 								</div>
-							</div>
-							<!-- /Cart -->
+								<!-- /Cart -->
 
-							<!-- Menu Toogle -->
-							<div class="menu-toggle">
-								<a href="#"> <i class="fa fa-bars"></i> <span>Menu</span>
-								</a>
+								<!-- Menu Toogle -->
+								<div class="menu-toggle">
+									<a href="#"> <i class="fa fa-bars"></i> <span>Menu</span>
+									</a>
+								</div>
+								<!-- /Menu Toogle -->
 							</div>
-							<!-- /Menu Toogle -->
 						</div>
-					</div>
+					</c:if>
 					<!-- /ACCOUNT -->
 				</div>
 				<!-- row -->
@@ -198,18 +295,24 @@
 					<!-- aside Widget -->
 					<div class="aside">
 						<h3 class="aside-title">Categories</h3>
-						<form action="">
-							<input type="radio" name="gender" value="Tout"> Tout<br>
-							<input type="radio" name="gender" value="Vehicule">
-							Vehicule<br> <input type="radio" name="gender"
+						<form action="magasin" method="GET">
+							<input type="hidden" name="act" value="rechercheParCategorie" />
+							<input onchange="this.form.submit()" type="radio"
+								name="categorie" value="Tout"> Tout<br> <input
+								onchange="this.form.submit()" type="radio" name="categorie"
+								value="Vehicule"> Vehicule<br> <input
+								onchange="this.form.submit()" type="radio" name="categorie"
 								value="Immobilier"> Immobilier<br> <input
-								type="radio" name="gender" value="Electronique">
-							Electronique<br> <input type="radio" name="gender"
+								onchange="this.form.submit()" type="radio" name="categorie"
+								value="Electronique"> Electronique<br> <input
+								onchange="this.form.submit()" type="radio" name="categorie"
 								value="Electromenager"> Electromenager<br> <input
-								type="radio" name="gender" value="Meubles"> Meubles<br>
-							<input type="radio" name="gender" value="Loisirs">
-							Loisirs<br> <input type="radio" name="gender"
-								value="Loisirs"> Materiaux
+								onchange="this.form.submit()" type="radio" name="categorie"
+								value="Meubles"> Meubles<br> <input
+								onchange="this.form.submit()" type="radio" name="categorie"
+								value="Loisirs"> Loisirs<br> <input
+								onchange="this.form.submit()" type="radio" name="categorie"
+								value="Materiaux"> Materiaux
 						</form>
 					</div>
 					<!-- /aside Widget -->
@@ -217,18 +320,23 @@
 					<!-- aside Widget -->
 					<div class="aside">
 						<h3 class="aside-title">Interval PRIX</h3>
-						<div class="price-filter">
-							<div id="price-slider"></div>
-							<div class="input-number price-min">
-								<input id="price-min" type="number"> <span
-									class="qty-up">+</span> <span class="qty-down">-</span>
+						<form action="magasin" method="GET">
+							<input type="hidden" name="act" value="rechercheParPrix" />
+							<div class="price-filter">
+								<div id="price-slider"></div>
+								<div class="input-number price-min">
+									<input onchange="this.form.submit()" id="price-min" name="min"
+										value="${prixMin}" type="number"> <span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
+								<span>-</span>
+								<div class="input-number price-max">
+									<input onchange="this.form.submit()" id="price-max" name="max"
+										value="${prixMax}" type="number"> <span class="qty-up">+</span>
+									<span class="qty-down">-</span>
+								</div>
 							</div>
-							<span>-</span>
-							<div class="input-number price-max">
-								<input id="price-max" type="number"> <span
-									class="qty-up">+</span> <span class="qty-down">-</span>
-							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 				<!-- /ASIDE -->
@@ -252,9 +360,6 @@
 										<h3 class="product-name">
 											<a href="#">${objet.fp.libelle}</a>
 										</h3>
-										<p>
-											<a href="#">${objet.fp.description}</a>
-										</p>
 										<h4 class="product-price">
 											PRIX :
 											<c:out value="${objet.fp.pxlj}" />
@@ -262,13 +367,11 @@
 										</h4>
 									</div>
 									<div class="add-to-cart">
-									<c:if test="${nbReservation < pm.NMOR }">
 										<a href="objet?id=${objet.identifiant}">
 											<button class="add-to-cart-btn">
 												<i class="fa fa-shopping-cart"></i>Reserver
 											</button>
 										</a>
-									</c:if>
 									</div>
 								</div>
 							</div>
@@ -281,16 +384,6 @@
 					<!-- /store products -->
 
 					<!-- store bottom filter -->
-					<div class="store-filter clearfix">
-						<span class="store-qty">Showing 20-100 products</span>
-						<ul class="store-pagination">
-							<li class="active">1</li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-						</ul>
-					</div>
 					<!-- /store bottom filter -->
 				</div>
 				<!-- /STORE -->
@@ -364,17 +457,6 @@
 	<!-- /FOOTER -->
 
 	<!-- jQuery Plugins -->
-	<script type="text/javascript">
-		$(document).ready(
-				function() {
-					$("select.input-select").change(
-							function() {
-								var selectedCountry = $(this).children(
-										"option:selected").val();
-			
-							});
-				});
-	</script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/slick.min.js"></script>
@@ -384,3 +466,9 @@
 
 </body>
 </html>
+<style>
+#resultatRech {
+	position: absolute;
+	z-index: 1;
+}
+</style>

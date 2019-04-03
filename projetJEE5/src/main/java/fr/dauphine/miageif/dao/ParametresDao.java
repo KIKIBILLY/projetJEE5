@@ -30,9 +30,10 @@ public class ParametresDao {
 				p = new Parametres();
 			    p.setNDML(rs.getInt(1));
 			    p.setNDmL(rs.getInt(2));
-			    p.setNDMR(rs.getInt(3));
-			    p.setNMOL(rs.getInt(4));
-			    p.setNMOR(rs.getInt(4));			    
+			    p.setNMOR(rs.getInt(3));
+			    p.setNDMR(rs.getInt(4));
+			    p.setNMOL(rs.getInt(5));
+			    			    
 			}
 		return p;
 

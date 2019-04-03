@@ -22,7 +22,7 @@ public class ProfileEmployeControleur extends HttpServlet {
        
     	EmployeeDao edao ;
     	String email;
-    	String test ="bilal.rezkellah@dauphine.eu";
+    	String test ;
 	
     @Override
     public void init() throws ServletException {
@@ -35,6 +35,7 @@ public class ProfileEmployeControleur extends HttpServlet {
 		
 		
 		HttpSession session = request.getSession();
+		test =(String) session.getAttribute("email");
 		Employe employe= new Employe();
 		email = (String) getServletContext().getAttribute ("email");	
 		employe = edao.getEmployeByEmail(test);
